@@ -75,8 +75,9 @@ def test_table_lookup_fail(users_table):
 
 def test_table_simple_sql(feature_store):
     create_users_table(feature_store)
+    table_name = "nora_table"
     nora_table = feature_store.materialize_table(
-        name="nora",
+        name=table_name,
         query="SELECT id, name FROM users WHERE name == 'nora'",
         dependencies=["users"],
         output_columns=["new_id", "new_name"],
@@ -84,15 +85,16 @@ def test_table_simple_sql(feature_store):
     )
     df = pd.DataFrame(["nora"], index=["2"], columns=["new_name"])
     df.index.name = "new_id"
-    expected = streamsql.local.Table(df)
+    expected = streamsql.local.Table(table_name, df)
     assert nora_table == expected
 
 
 def test_table_join_sql(feature_store):
     create_users_table(feature_store)
     create_purchases_table(feature_store)
+    table_name = "dollars_spent"
     dollars_spent_table = feature_store.materialize_table(
-        name="dollars_spent",
+        name=table_name,
         query="""SELECT user.id, SUM(price) FROM purchases purchase
         INNER JOIN users user ON purchase.user=user.id GROUP BY user.id
         ORDER BY user.id ASC
@@ -103,7 +105,7 @@ def test_table_join_sql(feature_store):
     )
     df = pd.DataFrame([1000, 10], index=["1", "3"], columns=["spent"])
     df.index.name = "user"
-    expected = streamsql.local.Table(df)
+    expected = streamsql.local.Table(table_name, df)
     assert dollars_spent_table == expected
 
 
