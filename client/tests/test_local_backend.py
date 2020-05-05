@@ -2,9 +2,12 @@ import pytest
 import streamsql.local
 import streamsql.errors
 import os, sys
+import pandas as pd
 
 test_dir = os.path.dirname(os.path.realpath(__file__))
-users_file = os.path.join(test_dir, 'testdata', 'users.csv')
+testdata_dir = os.path.join(test_dir, 'testdata')
+users_file = os.path.join(testdata_dir, 'users.csv')
+purchases_file = os.path.join(testdata_dir, 'purchases.csv')
 
 
 @pytest.fixture
@@ -17,9 +20,20 @@ def user_table(feature_store):
     return create_user_table(feature_store)
 
 
+@pytest.fixture
+def purchase_table(feature_store):
+    return create_purchase_table(feature_store)
+
+
 def create_user_table(feature_store):
     return feature_store.create_table_from_csv(users_file,
                                                table_name="users",
+                                               primary_key="id")
+
+
+def create_purchase_table(feature_store):
+    return feature_store.create_table_from_csv(purchases_file,
+                                               table_name="purchases",
                                                primary_key="id")
 
 
@@ -59,3 +73,49 @@ def test_table_lookup_fail(user_table):
         user_table.lookup("abc")
 
 
+def test_table_simple_sql(feature_store):
+    create_user_table(feature_store)
+    nora_table = feature_store.materialize_table(
+        name="nora",
+        query="SELECT id, name FROM users WHERE name == 'nora'",
+        dependencies=["users"],
+        output_columns=["new_id", "new_name"],
+        primary_key=["new_id"],
+    )
+    df = pd.DataFrame(["nora"], index=["2"], columns=["new_name"])
+    df.index.name = "new_id"
+    expected = streamsql.local.Table(df)
+    assert nora_table == expected
+
+
+def test_table_join_sql(feature_store):
+    create_user_table(feature_store)
+    create_purchase_table(feature_store)
+    dollars_spent_table = feature_store.materialize_table(
+        name="dollars_spent",
+        query="""SELECT user.id, SUM(price) FROM purchases purchase
+        INNER JOIN users user ON purchase.user=user.id GROUP BY user.id
+        ORDER BY user.id ASC
+        """,
+        dependencies=["users", "purchases"],
+        output_columns=["user", "spent"],
+        primary_key=["user"],
+    )
+    df = pd.DataFrame([1000, 10], index=["1", "3"], columns=["spent"])
+    df.index.name = "user"
+    expected = streamsql.local.Table(df)
+    assert dollars_spent_table == expected
+
+
+def test_materialized_table_is_stored(feature_store):
+    create_user_table(feature_store)
+    created = feature_store.materialize_table(
+        name="user_cpy",
+        query="SELECT id, name FROM users",
+        dependencies=["users"],
+        output_columns=["id", "name"],
+        primary_key=["id"],
+    )
+    assert feature_store.has_table("user_cpy")
+    got = feature_store.get_table("user_cpy")
+    assert created == got
