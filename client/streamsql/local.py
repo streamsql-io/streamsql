@@ -53,6 +53,26 @@ class FeatureStore:
         self._tables[name] = table
         return table
 
+    def register_features(self, *feature_defs):
+        for feature_def in feature_defs:
+            self._register_feature(feature_def)
+
+    def online_features(self, feature_names, entities={}):
+        features = [self._features[name] for name in feature_names]
+        feature_entities = [
+            entities[feature.parent_entity()] for feature in features
+        ]
+        return [
+            feature.lookup(entity)
+            for feature, entity in zip(features, feature_entities)
+        ]
+
+    def _register_feature(self, feature_def):
+        if feature_def.name in self._features:
+            raise FeatureExistsError(feature.name)
+        feature = feature_def._instatiate(self)
+        self._features[feature_def.name] = feature
+
 
 class Table:
     """Table is an in-memory implementation of the StreamSQL table"""

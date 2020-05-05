@@ -1,6 +1,7 @@
 import pytest
 import streamsql.local
 import streamsql.errors
+import streamsql.feature
 import os, sys
 import pandas as pd
 
@@ -121,3 +122,18 @@ def test_materialized_table_is_stored(feature_store):
     assert feature_store.has_table("user_cpy")
     got = feature_store.get_table("user_cpy")
     assert created == got
+
+
+def test_numeric_feature(feature_store):
+    create_users_table(feature_store)
+    feature = streamsql.feature.Numeric(
+        name="sq_price",
+        table="users",
+        column="balance",
+        operation=streamsql.feature.Pow(2),
+        parent_entity="user",
+    )
+    feature_store.register_features(feature)
+    inputs = feature_store.online_features(["sq_price"],
+                                           entities={"user": "1"})
+    assert inputs == [123**2]
