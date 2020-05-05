@@ -21,6 +21,12 @@ class FeatureStore:
         self._tables[table_name] = table
         return table
 
+    def get_table(self, table_name):
+        return self._tables[table_name]
+
+    def has_table(self, table_name):
+        return table_name in self._tables
+
 
 class Table:
     """Table is an in-memory implementation of the StreamSQL table"""
@@ -32,6 +38,12 @@ class Table:
         """Lookup returns an array from a table by its primary key"""
         item_series = self._dataframe.loc[key]
         return item_series.to_list()
+
+    def __eq__(self, other):
+        if isinstance(other, Table):
+            return self._dataframe.equals(other._dataframe)
+        else:
+            return NotImplemented
 
     def _dataframe_from_csv(self, file_name, index_col):
         dataframe = pandas.read_csv(file_name, index_col=index_col)
