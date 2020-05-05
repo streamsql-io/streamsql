@@ -65,7 +65,7 @@ def test_get_table_fail(feature_store):
 
 
 def test_table_lookup(users_table):
-    assert users_table.lookup("1") == ["simba"]
+    assert users_table.lookup("1") == ["simba", 123]
 
 
 def test_table_lookup_fail(users_table):

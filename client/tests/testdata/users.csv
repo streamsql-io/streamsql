@@ -1,4 +1,4 @@
-id,name
-1,simba
-2,nora
-3,chups
+id,name,balance
+1,simba,123
+2,nora,456
+3,chups,789
