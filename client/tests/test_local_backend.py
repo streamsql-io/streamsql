@@ -39,8 +39,8 @@ def create_purchase_table(feature_store):
 
 def test_table_already_exists(feature_store):
     create_user_table(feature_store)
-    with pytest.raises(streamsql.errors.TableAlreadyExists):
         create_user_table(feature_store)
+    with pytest.raises(streamsql.errors.TableExistsError):
 
 
 def test_has_table(feature_store):
