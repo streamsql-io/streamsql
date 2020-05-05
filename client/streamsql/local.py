@@ -12,13 +12,14 @@ class FeatureStore:
     """
     def __init__(self):
         self._tables = dict()
+        self._features = dict()
 
     def create_table_from_csv(self, csv_file, table_name="", primary_key=""):
         """Create a table from a local csv file"""
         if table_name in self._tables:
             raise TableExistsError(table_name)
 
-        table = Table.from_csv(csv_file=csv_file, primary_key=primary_key)
+        table = Table.from_csv(table_name, csv_file=csv_file, primary_key=primary_key)
         self._tables[table_name] = table
         return table
 
@@ -46,7 +47,7 @@ class FeatureStore:
         dataframe.set_index(keys=primary_key,
                             inplace=True,
                             verify_integrity=True)
-        table = Table(dataframe)
+        table = Table(name, dataframe)
         self._tables[name] = table
         return table
 
@@ -54,13 +55,14 @@ class FeatureStore:
 class Table:
     """Table is an in-memory implementation of the StreamSQL table"""
     @classmethod
-    def from_csv(cls, csv_file="", primary_key=""):
+    def from_csv(cls, name, csv_file="", primary_key=""):
         """Create a Table from a CSV file."""
         dataframe = Table._dataframe_from_csv(csv_file, primary_key)
-        return cls(dataframe)
+        return cls(name, dataframe)
 
-    def __init__(self, dataframe):
+    def __init__(self, name, dataframe):
         """Create a Table from a pandas.DataFrame"""
+        self.name = name
         self._dataframe = dataframe
 
     def lookup(self, key):
