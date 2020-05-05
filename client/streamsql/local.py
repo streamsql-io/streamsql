@@ -1,5 +1,6 @@
 from streamsql.errors import TableAlreadyExists
 import pandas
+from pandasql import sqldf
 
 
 class FeatureStore:
@@ -17,7 +18,7 @@ class FeatureStore:
         if table_name in self._tables:
             raise TableAlreadyExists(table_name)
 
-        table = Table(csv_file=csv_file, primary_key=primary_key)
+        table = Table.from_csv(csv_file=csv_file, primary_key=primary_key)
         self._tables[table_name] = table
         return table
 
@@ -27,12 +28,40 @@ class FeatureStore:
     def has_table(self, table_name):
         return table_name in self._tables
 
+    def materialize_table(
+        self,
+        name="",
+        query="",
+        dependencies=[],
+        output_columns=[],
+        primary_key="",
+    ):
+        """Create a Table by applying a SQL query on other Tables"""
+        query_ctx = {
+            dep: self.get_table(dep)._dataframe
+            for dep in dependencies
+        }
+        dataframe = sqldf(query, query_ctx)
+        dataframe.columns = output_columns
+        dataframe.set_index(keys=primary_key,
+                            inplace=True,
+                            verify_integrity=True)
+        table = Table(dataframe)
+        self._tables[name] = table
+        return table
+
 
 class Table:
     """Table is an in-memory implementation of the StreamSQL table"""
-    def __init__(self, csv_file="", primary_key=""):
-        """Table can be instatiated from a CSV file."""
-        self._dataframe = self._dataframe_from_csv(csv_file, primary_key)
+    @classmethod
+    def from_csv(cls, csv_file="", primary_key=""):
+        """Create a Table from a CSV file."""
+        dataframe = Table._dataframe_from_csv(csv_file, primary_key)
+        return cls(dataframe)
+
+    def __init__(self, dataframe):
+        """Create a Table from a pandas.DataFrame"""
+        self._dataframe = dataframe
 
     def lookup(self, key):
         """Lookup returns an array from a table by its primary key"""
@@ -45,10 +74,10 @@ class Table:
         else:
             return NotImplemented
 
-    def _dataframe_from_csv(self, file_name, index_col):
+    def _dataframe_from_csv(file_name, index_col):
         dataframe = pandas.read_csv(file_name, index_col=index_col)
-        self._clean_dataframe(dataframe)
+        Table._clean_dataframe(dataframe)
         return dataframe
 
-    def _clean_dataframe(self, dataframe):
+    def _clean_dataframe(dataframe):
         dataframe.index = dataframe.index.astype(str, copy=False)
