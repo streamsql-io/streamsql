@@ -72,6 +72,9 @@ class Table:
         item_series = self._dataframe.loc[key]
         return item_series.to_list()
 
+    def column(self, col_name):
+        return Column(col_name, self._dataframe[col_name])
+
     def __eq__(self, other):
         if isinstance(other, Table):
             return self._dataframe.equals(other._dataframe)
@@ -85,3 +88,12 @@ class Table:
 
     def _clean_dataframe(dataframe):
         dataframe.index = dataframe.index.astype(str, copy=False)
+
+
+class Column:
+    def __init__(self, name, series):
+        self.name = name
+        self._series = series
+
+    def __getitem__(self, key):
+        return self._series.loc[key]
