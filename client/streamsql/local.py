@@ -19,7 +19,9 @@ class FeatureStore:
         if table_name in self._tables:
             raise TableExistsError(table_name)
 
-        table = Table.from_csv(table_name, csv_file=csv_file, primary_key=primary_key)
+        table = Table.from_csv(table_name,
+                               csv_file=csv_file,
+                               primary_key=primary_key)
         self._tables[table_name] = table
         return table
 
