@@ -16,45 +16,45 @@ def feature_store():
 
 
 @pytest.fixture
-def user_table(feature_store):
-    return create_user_table(feature_store)
+def users_table(feature_store):
+    return create_users_table(feature_store)
 
 
 @pytest.fixture
-def purchase_table(feature_store):
-    return create_purchase_table(feature_store)
+def purchases_table(feature_store):
+    return create_purchases_table(feature_store)
 
 
-def create_user_table(feature_store):
+def create_users_table(feature_store):
     return feature_store.create_table_from_csv(users_file,
                                                table_name="users",
                                                primary_key="id")
 
 
-def create_purchase_table(feature_store):
+def create_purchases_table(feature_store):
     return feature_store.create_table_from_csv(purchases_file,
                                                table_name="purchases",
                                                primary_key="id")
 
 
 def test_table_already_exists(feature_store):
-    create_user_table(feature_store)
-        create_user_table(feature_store)
+    create_users_table(feature_store)
     with pytest.raises(streamsql.errors.TableExistsError):
+        create_users_table(feature_store)
 
 
 def test_has_table(feature_store):
-    create_user_table(feature_store)
+    create_users_table(feature_store)
     assert feature_store.has_table("users")
 
 
 def test_not_has_table(feature_store):
-    create_user_table(feature_store)
+    create_users_table(feature_store)
     assert not feature_store.has_table("users2")
 
 
 def test_get_table(feature_store):
-    created_table = create_user_table(feature_store)
+    created_table = create_users_table(feature_store)
     got_table = feature_store.get_table("users")
     assert created_table == got_table
 
@@ -64,17 +64,17 @@ def test_get_table_fail(feature_store):
         feature_store.get_table("users2")
 
 
-def test_table_lookup(user_table):
-    assert user_table.lookup("1") == ["simba"]
+def test_table_lookup(users_table):
+    assert users_table.lookup("1") == ["simba"]
 
 
-def test_table_lookup_fail(user_table):
+def test_table_lookup_fail(users_table):
     with pytest.raises(KeyError):
-        user_table.lookup("abc")
+        users_table.lookup("abc")
 
 
 def test_table_simple_sql(feature_store):
-    create_user_table(feature_store)
+    create_users_table(feature_store)
     nora_table = feature_store.materialize_table(
         name="nora",
         query="SELECT id, name FROM users WHERE name == 'nora'",
@@ -89,8 +89,8 @@ def test_table_simple_sql(feature_store):
 
 
 def test_table_join_sql(feature_store):
-    create_user_table(feature_store)
-    create_purchase_table(feature_store)
+    create_users_table(feature_store)
+    create_purchases_table(feature_store)
     dollars_spent_table = feature_store.materialize_table(
         name="dollars_spent",
         query="""SELECT user.id, SUM(price) FROM purchases purchase
@@ -108,7 +108,7 @@ def test_table_join_sql(feature_store):
 
 
 def test_materialized_table_is_stored(feature_store):
-    create_user_table(feature_store)
+    create_users_table(feature_store)
     created = feature_store.materialize_table(
         name="user_cpy",
         query="SELECT id, name FROM users",
