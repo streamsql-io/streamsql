@@ -123,3 +123,9 @@ class Column:
 
     def max(self):
         return self._series.max()
+
+    def mean(self):
+        return self._series.mean()
+
+    def median(self):
+        return self._series.median()

@@ -11,6 +11,36 @@ class NoOp:
         return value
 
 
+class Median:
+    @classmethod
+    def name(cls):
+        return "median"
+
+    @classmethod
+    def apply(cls, column, *ignore):
+        return column.median()
+
+
+class Mean:
+    @classmethod
+    def name(cls):
+        return "mean"
+
+    @classmethod
+    def apply(cls, column, *ignore):
+        return column.mean()
+
+
+class Zero:
+    @classmethod
+    def name(cls):
+        return "zero"
+
+    @classmethod
+    def apply(cls, column, *ignore):
+        return 0
+
+
 class MinMax:
     """MinMax linearly scales a feature to fit between a min and max"""
     def __init__(self, min=0, max=1):
