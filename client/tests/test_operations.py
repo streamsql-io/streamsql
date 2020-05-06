@@ -22,7 +22,7 @@ def test_min_max(int_column, min, max, transform):
 
 
 def test_sqrt(int_column):
-    assert op.Sqrt().apply(int_column, 4) == 2
+    assert op.Sqrt.apply(int_column, 4) == 2
 
 
 @pytest.mark.parametrize("factor, transform", [(2, (2, 4)), (-1, (2, 0.5)),
