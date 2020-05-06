@@ -21,6 +21,12 @@ def test_min_max(int_column, min, max, transform):
     assert actual == expected
 
 
+@pytest.mark.parametrize("initial, expected", [(3 + 1 / 3, 0),
+                                               (100, 59.19600211726014)])
+def test_z_score(int_column, initial, expected):
+    assert op.ZScore.apply(int_column, initial) == expected
+
+
 def test_sqrt(int_column):
     assert op.Sqrt.apply(int_column, 4) == 2
 

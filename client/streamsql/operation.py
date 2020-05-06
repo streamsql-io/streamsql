@@ -41,6 +41,16 @@ class Zero:
         return 0
 
 
+class ZScore:
+    @classmethod
+    def name(cls):
+        return "z_score"
+
+    @classmethod
+    def apply(cls, column, value):
+        return (value - column.mean()) / column.std()
+
+
 class MinMax:
     """MinMax linearly scales a feature to fit between a min and max"""
     def __init__(self, min=0, max=1):
