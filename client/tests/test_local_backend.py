@@ -3,7 +3,7 @@ import streamsql.local
 import streamsql.errors
 import streamsql.feature
 import streamsql.operation
-import os, sys
+import os
 import pandas as pd
 
 test_dir = os.path.dirname(os.path.realpath(__file__))
