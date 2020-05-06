@@ -6,7 +6,7 @@ class Numeric:
                  name="",
                  table="",
                  column="",
-                 operation=None,
+                 operation=op.NoOp,
                  parent_entity=None):
         self.name = name
         self.table = table

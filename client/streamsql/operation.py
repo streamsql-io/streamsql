@@ -1,6 +1,16 @@
 import math
 
 
+class NoOp:
+    @classmethod
+    def name(cls):
+        return "no_op"
+
+    @classmethod
+    def apply(cls, column, value):
+        return value
+
+
 class Sqrt:
     @classmethod
     def name(cls):
