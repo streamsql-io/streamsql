@@ -138,3 +138,17 @@ def test_numeric_feature(feature_store):
     inputs = feature_store.online_features(["sq_price"],
                                            entities={"user": "1"})
     assert inputs == [123**2]
+
+
+def test_noop_feature(feature_store):
+    create_users_table(feature_store)
+    feature = streamsql.feature.Numeric(
+        name="price",
+        table="users",
+        column="balance",
+        parent_entity="user",
+    )
+    feature_store.register_features(feature)
+    inputs = feature_store.online_features(["price"],
+                                           entities={"user": "1"})
+    assert inputs == [123]
