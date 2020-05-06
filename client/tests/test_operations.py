@@ -31,3 +31,15 @@ def test_sqrt(int_column):
 def test_pow(int_column, factor, transform):
     initial, expected = transform
     assert op.Pow(factor).apply(int_column, initial) == expected
+
+
+def test_median(int_column):
+    assert op.Median.apply(int_column) == 3.5
+
+
+def test_mean(int_column):
+    assert op.Mean.apply(int_column) == 3 + 1 / 3
+
+
+def test_zero(int_column):
+    assert op.Zero.apply(int_column) == 0
