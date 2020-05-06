@@ -129,3 +129,6 @@ class Column:
 
     def median(self):
         return self._series.median()
+
+    def std(self):
+        return self._series.std()
