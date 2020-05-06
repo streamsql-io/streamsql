@@ -149,6 +149,5 @@ def test_noop_feature(feature_store):
         parent_entity="user",
     )
     feature_store.register_features(feature)
-    inputs = feature_store.online_features(["balance"],
-                                           entities={"user": "1"})
+    inputs = feature_store.online_features(["balance"], entities={"user": "1"})
     assert inputs == [123]
