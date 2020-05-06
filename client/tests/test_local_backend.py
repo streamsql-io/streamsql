@@ -128,7 +128,7 @@ def test_materialized_table_is_stored(feature_store):
 def test_numeric_feature(feature_store):
     create_users_table(feature_store)
     feature = streamsql.feature.Numeric(
-        name="sq_price",
+        name="sq_balance",
         table="users",
         column="balance",
         operation=streamsql.operation.Pow(2),
@@ -143,7 +143,7 @@ def test_numeric_feature(feature_store):
 def test_noop_feature(feature_store):
     create_users_table(feature_store)
     feature = streamsql.feature.Numeric(
-        name="price",
+        name="balance",
         table="users",
         column="balance",
         parent_entity="user",
