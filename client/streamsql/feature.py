@@ -24,7 +24,7 @@ class Sqrt:
         return "sqrt"
 
     @classmethod
-    def apply(cls, val):
+    def apply(cls, column, val):
         return math.sqrt(val)
 
 
@@ -35,7 +35,7 @@ class Pow:
     def name(self):
         return "pow"
 
-    def apply(self, val):
+    def apply(self, column, val):
         return val**self._factor
 
 
@@ -51,7 +51,7 @@ class _NumericFeature:
         table = self._sources.get_table(self._definition.table)
         column = table.column(self._definition.column)
         init_value = column[entity]
-        return self._apply_feature(init_value, column=column)
+        return self._apply_feature(column, init_value)
 
-    def _apply_feature(self, init_value, column=None):
-        return self._definition.operation.apply(init_value)
+    def _apply_feature(self, column, init_value):
+        return self._definition.operation.apply(column, init_value)
