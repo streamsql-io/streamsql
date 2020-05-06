@@ -1,4 +1,4 @@
-import math
+import streamsql.operation as op
 
 
 class Numeric:
@@ -16,27 +16,6 @@ class Numeric:
 
     def _instatiate(self, sources):
         return _NumericFeature(self, sources)
-
-
-class Sqrt:
-    @classmethod
-    def name(cls):
-        return "sqrt"
-
-    @classmethod
-    def apply(cls, column, val):
-        return math.sqrt(val)
-
-
-class Pow:
-    def __init__(self, factor):
-        self._factor = factor
-
-    def name(self):
-        return "pow"
-
-    def apply(self, column, val):
-        return val**self._factor
 
 
 class _NumericFeature:

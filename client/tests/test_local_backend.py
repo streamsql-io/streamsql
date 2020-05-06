@@ -2,6 +2,7 @@ import pytest
 import streamsql.local
 import streamsql.errors
 import streamsql.feature
+import streamsql.operation
 import os, sys
 import pandas as pd
 
@@ -130,7 +131,7 @@ def test_numeric_feature(feature_store):
         name="sq_price",
         table="users",
         column="balance",
-        operation=streamsql.feature.Pow(2),
+        operation=streamsql.operation.Pow(2),
         parent_entity="user",
     )
     feature_store.register_features(feature)
