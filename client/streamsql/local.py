@@ -117,3 +117,9 @@ class Column:
 
     def __getitem__(self, key):
         return self._series.loc[key]
+
+    def min(self):
+        return self._series.min()
+
+    def max(self):
+        return self._series.max()
