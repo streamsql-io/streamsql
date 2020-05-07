@@ -117,3 +117,21 @@ class Column:
 
     def __getitem__(self, key):
         return self._series.loc[key]
+
+    def min(self):
+        return self._series.min()
+
+    def max(self):
+        return self._series.max()
+
+    def mean(self):
+        return self._series.mean()
+
+    def median(self):
+        return self._series.median()
+
+    def std(self):
+        return self._series.std()
+
+    def quantile(self, *quantiles):
+        return self._series.quantile(quantiles)

@@ -2,7 +2,8 @@ import pytest
 import streamsql.local
 import streamsql.errors
 import streamsql.feature
-import os, sys
+import streamsql.operation
+import os
 import pandas as pd
 
 test_dir = os.path.dirname(os.path.realpath(__file__))
@@ -127,13 +128,26 @@ def test_materialized_table_is_stored(feature_store):
 def test_numeric_feature(feature_store):
     create_users_table(feature_store)
     feature = streamsql.feature.Numeric(
-        name="sq_price",
+        name="sq_balance",
         table="users",
         column="balance",
-        operation=streamsql.feature.Pow(2),
+        transform=streamsql.operation.Pow(2),
         parent_entity="user",
     )
     feature_store.register_features(feature)
-    inputs = feature_store.online_features(["sq_price"],
+    inputs = feature_store.online_features(["sq_balance"],
                                            entities={"user": "1"})
     assert inputs == [123**2]
+
+
+def test_noop_feature(feature_store):
+    create_users_table(feature_store)
+    feature = streamsql.feature.Numeric(
+        name="balance",
+        table="users",
+        column="balance",
+        parent_entity="user",
+    )
+    feature_store.register_features(feature)
+    inputs = feature_store.online_features(["balance"], entities={"user": "1"})
+    assert inputs == [123]
