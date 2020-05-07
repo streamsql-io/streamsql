@@ -7,10 +7,10 @@ class Numeric:
                  name="",
                  table="",
                  column="",
-                 transform=op.NoOp,
-                 normalize=op.NoOp,
-                 truncate=op.NoOp,
-                 fill_missing=op.NoOp,
+                 transform=None,
+                 normalize=None,
+                 truncate=None,
+                 fill_missing=None,
                  parent_entity=None):
         self.name = name
         self.table = table
@@ -41,10 +41,10 @@ class _NumericFeature:
 
     def _apply_feature(self, column, init_value):
         d = self._definition
-        if math.isnan(init_value):
-            init_value = d.fill_missing.apply(column, init_value)
-        fn_order = [d.truncate, d.normalize, d.transform]
+        fn_order = (d.fill_missing, d.truncate, d.normalize, d.transform)
         cur_value = init_value
         for fn in fn_order:
+            if fn is None:
+                continue
             cur_value = fn.apply(column, cur_value)
         return cur_value

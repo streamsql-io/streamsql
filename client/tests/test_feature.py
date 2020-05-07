@@ -29,7 +29,7 @@ def test_numeric_feature(feature_store):
             column="value",
             transform=op.Pow(2),
             normalize=op.MinMax(min=0, max=4),
-            fill_missing=op.Mean,
+            fill_missing=op.Mean(),
             truncate=op.QuantileTrunc(bottom=0.2),
             parent_entity="id",
         ))

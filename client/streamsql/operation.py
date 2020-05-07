@@ -1,14 +1,16 @@
 import math
+from abc import ABCMeta, abstractmethod
 
 
 class ZScoreTrunc:
     def __init__(self, max_devs=3):
         self._max_devs = max_devs
+        self._zscore = ZScore()
 
     def apply(self, column, value):
-        zscore = ZScore.apply(column, value)
+        zscore = self._zscore.apply(column, value)
         capped_zscore = _cap(zscore, -self._max_devs, self._max_devs)
-        return ZScore.revert(column, capped_zscore)
+        return self._zscore.revert(column, capped_zscore)
 
 
 class QuantileTrunc:
@@ -21,57 +23,57 @@ class QuantileTrunc:
         return _cap(value, bottom_val, top_val)
 
 
+class FillMissingOp(metaclass=ABCMeta):
+    def apply(self, column, value):
+        if math.isnan(value):
+            return self.fill_value(column)
+        return value
+
+    @abstractmethod
+    def fill_value(self, column):
+        pass
+
+
 class NoOp:
-    @classmethod
-    def name(cls):
+    def name(self):
         return "no_op"
 
-    @classmethod
-    def apply(cls, column, value):
+    def apply(self, column, value):
         return value
 
 
-class Median:
-    @classmethod
-    def name(cls):
+class Median(FillMissingOp):
+    def name(self):
         return "median"
 
-    @classmethod
-    def apply(cls, column, *ignore):
+    def fill_value(self, column):
         return column.median()
 
 
-class Mean:
-    @classmethod
-    def name(cls):
+class Mean(FillMissingOp):
+    def name(self):
         return "mean"
 
-    @classmethod
-    def apply(cls, column, *ignore):
+    def fill_value(self, column):
         return column.mean()
 
 
-class Zero:
-    @classmethod
-    def name(cls):
+class Zero(FillMissingOp):
+    def name(self):
         return "zero"
 
-    @classmethod
-    def apply(cls, column, *ignore):
+    def fill_value(self, column):
         return 0
 
 
 class ZScore:
-    @classmethod
-    def name(cls):
+    def name(self):
         return "z_score"
 
-    @classmethod
-    def apply(cls, column, value):
+    def apply(self, column, value):
         return (value - column.mean()) / column.std()
 
-    @classmethod
-    def revert(cls, column, value):
+    def revert(self, column, value):
         return value * column.std() + column.mean()
 
 
@@ -100,12 +102,10 @@ class MinMax:
 
 
 class Sqrt:
-    @classmethod
-    def name(cls):
+    def name(self):
         return "sqrt"
 
-    @classmethod
-    def apply(cls, column, val):
+    def apply(self, column, val):
         return math.sqrt(val)
 
 
