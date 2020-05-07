@@ -6,12 +6,12 @@ class Numeric:
                  name="",
                  table="",
                  column="",
-                 operation=op.NoOp,
+                 transform=op.NoOp,
                  parent_entity=None):
         self.name = name
         self.table = table
         self.column = column
-        self.operation = operation
+        self.transform = transform
         self.parent_entity = parent_entity
 
     def _instatiate(self, sources):
