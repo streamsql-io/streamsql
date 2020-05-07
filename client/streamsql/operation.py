@@ -1,7 +1,7 @@
 import math
 
 
-class ZScoreCap:
+class ZScoreTrunc:
     def __init__(self, max_devs=3):
         self._max_devs = max_devs
 
@@ -11,7 +11,7 @@ class ZScoreCap:
         return ZScore.revert(column, capped_zscore)
 
 
-class QuantileCap:
+class QuantileTrunc:
     def __init__(self, bottom=0, top=1):
         self._bottom = bottom
         self._top = top
