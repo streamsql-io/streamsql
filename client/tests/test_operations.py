@@ -37,11 +37,11 @@ def test_min_max(int_column, min, max, transform):
 @pytest.mark.parametrize("initial, expected", [(3 + 1 / 3, 0),
                                                (100, 59.19600211726014)])
 def test_z_score(int_column, initial, expected):
-    assert op.ZScore.apply(int_column, initial) == expected
+    assert op.ZScore().apply(int_column, initial) == expected
 
 
 def test_sqrt(int_column):
-    assert op.Sqrt.apply(int_column, 4) == 2
+    assert op.Sqrt().apply(int_column, 4) == 2
 
 
 @pytest.mark.parametrize("factor, transform", [(2, (2, 4)), (-1, (2, 0.5)),
@@ -53,12 +53,12 @@ def test_pow(int_column, factor, transform):
 
 
 def test_median(int_column):
-    assert op.Median.apply(int_column) == 3.5
+    assert op.Median().apply(int_column, float('nan')) == 3.5
 
 
 def test_mean(int_column):
-    assert op.Mean.apply(int_column) == 3 + 1 / 3
+    assert op.Mean().apply(int_column, float('nan')) == 3 + 1 / 3
 
 
 def test_zero(int_column):
-    assert op.Zero.apply(int_column) == 0
+    assert op.Zero().apply(int_column, float('nan')) == 0
