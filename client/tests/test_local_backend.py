@@ -131,7 +131,7 @@ def test_numeric_feature(feature_store):
         name="sq_balance",
         table="users",
         column="balance",
-        operation=streamsql.operation.Pow(2),
+        transform=streamsql.operation.Pow(2),
         parent_entity="user",
     )
     feature_store.register_features(feature)
