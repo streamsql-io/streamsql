@@ -22,25 +22,24 @@ class Numeric:
         self.parent_entity = parent_entity
 
     def _instatiate(self, sources):
-        return _NumericFeature(self, sources)
+        column = sources.get_table(self.table).column(self.column)
+        return _NumericFeature(self, column)
 
 
 class _NumericFeature:
-    def __init__(self, definition, sources):
-        self._definition = definition
-        self._sources = sources
+    def __init__(self, definition, column):
+        self._def = definition
+        self._column = column
 
     def parent_entity(self):
-        return self._definition.parent_entity
+        return self._def.parent_entity
 
     def lookup(self, entity):
-        table = self._sources.get_table(self._definition.table)
-        column = table.column(self._definition.column)
-        init_value = column[entity]
-        return self._apply_feature(column, init_value)
+        init_value = self._column[entity]
+        return self._apply_feature(self._column, init_value)
 
     def _apply_feature(self, column, init_value):
-        d = self._definition
+        d = self._def
         fn_order = (d.fill_missing, d.truncate, d.normalize, d.transform)
         cur_value = init_value
         for fn in fn_order:
