@@ -11,6 +11,19 @@ def int_column():
     return streamsql.local.Column("int_column", series)
 
 
+@pytest.mark.parametrize("initial, expected",
+                         [(3, 3), (100, 4.9663264951887856), (2, 2),
+                          (-1, 1.7003401714778814)])
+def test_zscore_cap(int_column, initial, expected):
+    assert op.ZScoreCap(1).apply(int_column, initial) == expected
+
+
+@pytest.mark.parametrize("initial, expected", [(3, 3), (100, 3.5), (2, 2),
+                                               (-1, 1)])
+def test_quantile_cap(int_column, initial, expected):
+    assert op.QuantileCap(top=0.5).apply(int_column, initial) == expected
+
+
 @pytest.mark.parametrize("min, max, transform", [(0, 1, (3, 0.5)),
                                                  (-1, 1, (3, 0)),
                                                  (-100, 100, (5, 100))])

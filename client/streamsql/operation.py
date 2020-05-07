@@ -1,6 +1,26 @@
 import math
 
 
+class ZScoreCap:
+    def __init__(self, max_devs=3):
+        self._max_devs = max_devs
+
+    def apply(self, column, value):
+        zscore = ZScore.apply(column, value)
+        capped_zscore = _cap(zscore, -self._max_devs, self._max_devs)
+        return ZScore.revert(column, capped_zscore)
+
+
+class QuantileCap:
+    def __init__(self, bottom=0, top=1):
+        self._bottom = bottom
+        self._top = top
+
+    def apply(self, column, value):
+        bottom_val, top_val = column.quantile(self._bottom, self._top)
+        return _cap(value, bottom_val, top_val)
+
+
 class NoOp:
     @classmethod
     def name(cls):
@@ -50,6 +70,10 @@ class ZScore:
     def apply(cls, column, value):
         return (value - column.mean()) / column.std()
 
+    @classmethod
+    def revert(cls, column, value):
+        return value * column.std() + column.mean()
+
 
 class MinMax:
     """MinMax linearly scales a feature to fit between a min and max"""
@@ -94,3 +118,12 @@ class Pow:
 
     def apply(self, column, val):
         return val**self._factor
+
+
+def _cap(value, lower, upper):
+    if value > upper:
+        return upper
+    elif value < lower:
+        return lower
+    else:
+        return value
