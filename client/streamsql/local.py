@@ -132,3 +132,6 @@ class Column:
 
     def std(self):
         return self._series.std()
+
+    def quantile(self, *quantiles):
+        return self._series.quantile(quantiles)
