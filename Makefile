@@ -10,6 +10,9 @@ test:
 format:
 	yapf -i -r -p client/
 
+check-format:
+	yapf -r -p -q client/
+
 # install-dev installs all dependencies for python development of streamsql.
 install-dev:
 	pip3 install -r client/requirements.txt
