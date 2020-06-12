@@ -30,7 +30,7 @@ jobs:
       if: runner.os == 'Windows'
       run: |
         make venv
-        echo "::add-path::$PWD/venv/Scipts"
+        echo "::add-path::$PWD/venv/Scripts"
     - name: Setup virtualenv
       if: runner.os != 'Windows'
       run: |
