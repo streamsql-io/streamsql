@@ -28,7 +28,7 @@ install-dev:
 
 # Create a Python virtual environment under ./venv
 venv:
-	${pycmd} -m venv ./venv
+	${PYCMD} -m venv ./venv
 
 # Used in CI since setuptools was not included by default on Ubuntu.
 install-py-setuptools:
