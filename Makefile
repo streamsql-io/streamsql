@@ -16,7 +16,8 @@ coverage: test
 
 # test also generates a coverage file.
 test:
-	PYTHONPATH=$(PYTHONPATH):client coverage run --source streamsql -m pytest --verbose ./client/tests
+#	PYTHONPATH=$(PYTHONPATH):client coverage run --source streamsql -m pytest --verbose ./client/tests
+	coverage run --source streamsql -m pytest --verbose ./client/tests
 
 # format formats all python files in-place.
 format:
@@ -28,7 +29,7 @@ check-format:
 
 # install-dev installs all dependencies for python development of streamsql.
 install-dev:
-	${PYCMD} -m pip install -r ./client/requirements.txt
+	${PYCMD} -m pip install -e client
 
 # Create a Python virtual environment under ./venv
 venv:
