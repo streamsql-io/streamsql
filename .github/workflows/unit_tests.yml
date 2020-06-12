@@ -48,9 +48,11 @@ jobs:
         make venv
     - name: Add venv to path on non-Windows
       if: runner.os != 'Windows'
+      run: |
         echo "::add-path::$PWD/venv/bin"
     - name: Add venv to path on Windows
       if: runner.os == 'Windows'
+      run: |
         echo "::add-path::$PWD/venv/Scripts"
     - name: Install dependencies
       if: steps.venvcache.outputs.cache-hit != 'true'
