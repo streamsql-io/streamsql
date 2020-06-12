@@ -1,8 +1,9 @@
-# Typical Python executable name depends on OS
-ifeq ($(OS),Windows_NT)
-PYCMD := py -3
-else
 PYCMD := python3
+# On Windows, if the python3 command is not found, use py -3
+ifeq ($(OS),Windows_NT)
+ifeq (,$(shell where python3))
+PYCMD := py -3
+endif
 endif
 
 # print out test coverage to sysout.
