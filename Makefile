@@ -37,3 +37,7 @@ install-venv:
 # Used in CI to use the PYCMD variable to upgrade pip.
 upgrade-pip:
 	${PYCMD} -m pip install --upgrade pip
+
+# Used in CI since setuptools was not included by default on Ubuntu.
+install-py-setuptools:
+	${PYCMD} -m pip install setuptools

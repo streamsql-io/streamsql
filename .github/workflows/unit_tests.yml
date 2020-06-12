@@ -19,6 +19,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Setup virtualenv
       run: |
+        make install-py-setuptools
         make install-venv
         make venv
     - name: Activate virtualenv
