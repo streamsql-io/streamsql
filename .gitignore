@@ -3,3 +3,4 @@ venv/
 .coverage
 client/build/
 *.pyc
+coverage.xml

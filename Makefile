@@ -14,6 +14,9 @@ endif
 coverage: test
 	coverage report -m
 
+coverage.xml:
+	coverage xml
+
 # test also generates a coverage file.
 test:
 #	PYTHONPATH=$(PYTHONPATH):client coverage run --source streamsql -m pytest --verbose ./client/tests
