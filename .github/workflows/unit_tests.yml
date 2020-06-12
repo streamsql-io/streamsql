@@ -1,8 +1,12 @@
 name: Client Unit Tests
 
 on:
-  - push
-  - pull_request
+  push:
+    paths:
+    - 'client/**'
+  pull_request:
+    paths:
+    - 'client/**'
 
 jobs:
   python:
