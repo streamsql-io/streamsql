@@ -26,6 +26,10 @@ check-format:
 install-dev:
 	${PYCMD} -m pip install -r ./client/requirements.txt
 
+# Create a Python virtual environment under ./venv
+venv:
+	${pycmd} -m venv ./venv
+
 # Used in CI since setuptools was not included by default on Ubuntu.
 install-py-setuptools:
 	${PYCMD} -m pip install setuptools
