@@ -17,10 +17,17 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Setup virtualenv
+    - name: Install virtualenv
+      if: runner.os != 'Linux'
       run: |
         make install-py-setuptools
         make install-venv
+    - name: Install virtualenv on Ubuntu
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get install -y python3-setuptools python3-venv
+    - name: Setup virtualenv
+      run: |
         make venv
     - name: Activate virtualenv
       if: runner.os != 'Windows'
