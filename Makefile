@@ -30,6 +30,10 @@ install-dev:
 venv:
 	${PYCMD} -m venv ./venv
 
+# Used in CI to use the PYCMD variable to install virtualenv
+install-virtualenv:
+	${PYCMD} -m pip install virtualenv
+
 # Used in CI to use the PYCMD variable to upgrade pip.
 upgrade-pip:
 	${PYCMD} -m pip install --upgrade pip
