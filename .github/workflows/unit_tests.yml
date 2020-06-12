@@ -30,9 +30,9 @@ jobs:
       uses: actions/cache@v2
       with:
         path: "./venv"
-        key: ${{ runner.os }}-venv-${{ hashFiles('**/requirements.txt') }}
+        key: ${{ runner.os }}-${{ matrix.python }}-venv-${{ hashFiles('**/requirements.txt') }}
         restore-keys: |
-          ${{ runner.os }}-venv-
+          ${{ runner.os }}-${{ matrix.python }}-venv-
     - name: Install virtualenv
       if: runner.os != 'Linux' && steps.venvcache.outputs.cache-hit != 'true'
       run: |
