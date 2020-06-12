@@ -46,11 +46,14 @@ jobs:
     - name: Test
       run: |
         make test
+    - name: Generate coverage.xml
+      run: |
+        make coverage.xml
     - name: Codecov
       # Switch this back to v1 once codecov-actions fixes their tags.
       uses: codecov/codecov-action@v1.0.7
       with:
-        file: ./.coverage
+        file: ./coverage.xml
         flags: unittests
         env_vars: OS,PYTHON
         name: ci-codecov
