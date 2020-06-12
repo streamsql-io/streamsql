@@ -1,3 +1,10 @@
+# Typical Python executable name depends on OS
+ifeq ($(OS),Windows_NT)
+PYCMD := py -3
+else
+PYCMD := python3
+endif
+
 # print out test coverage to sysout.
 coverage: test
 	coverage report -m
@@ -15,4 +22,12 @@ check-format:
 
 # install-dev installs all dependencies for python development of streamsql.
 install-dev:
-	pip3 install -r client/requirements.txt
+	${PYCMD} -m pip install -r client/requirements.txt
+
+# Used in CI since setuptools was not included by default on Ubuntu.
+install-py-setuptools:
+	${PYCMD} -m pip install setuptools
+
+# Used in CI to use the PYCMD variable to upgrade pip.
+upgrade-pip:
+	${PYCMD} -m pip install --upgrade pip
