@@ -76,4 +76,5 @@ jobs:
         flags: unittests
         env_vars: OS,PYTHON
         name: ci-codecov
-        fail_ci_if_error: true
+        # This action has a tendency to timeout
+        fail_ci_if_error: false
