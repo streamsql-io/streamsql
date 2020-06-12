@@ -1,6 +1,7 @@
 PYCMD := python3
 # On Windows, if the python3 command is not found, use py -3
 ifeq ($(OS),Windows_NT)
+PYCMD := python
 # Check both which and where, depends on which shell is being used.
 ifeq (,$(shell which python))
 ifeq (,$(shell where python))
