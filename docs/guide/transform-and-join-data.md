@@ -36,7 +36,7 @@ streamsql.materialize_table(
 )
 ```
 
-## Grouping Items into an Array
+### Grouping Items into an Array
 
 `GROUP BY`'s can be used to generate arrays of items using the `collect` function. For example, if I was to create a model feature that is an array of all a user's purchases, I can do that as follows:
 

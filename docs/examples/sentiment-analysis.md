@@ -1,2 +1,0 @@
-# Twitter Sentiment Analysis
-

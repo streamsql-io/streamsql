@@ -14,16 +14,6 @@
 ## Examples
 
 * [\(Local\) Iris Dataset](examples/local-iris-dataset.md)
-* [Fraud Detection](examples/fraud-detection.md)
-* [Movie Recommender System](examples/recommender-system.md)
-* [Twitter Sentiment Analysis](examples/sentiment-analysis.md)
-
-## Feature Registry
-
-* [Feature Versioning](feature-registry/feature-versioning.md)
-* [Sharing Features](feature-registry/sharing-features.md)
-* [Visualizing and Monitoring](feature-registry/visualizing-and-monitoring.md)
-* [Third-Party Features](feature-registry/third-party-features.md)
 * [Login](https://streamsql.io/login)
 * [Sign Up](https://streamsql.io/register)
 * [Join our Slack Community](https://join.slack.com/t/streamsql-community/shared_invite/zt-fewd6dr4-~W9X7cJyegtDuilChlbUrg)

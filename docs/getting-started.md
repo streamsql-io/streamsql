@@ -53,13 +53,5 @@ If you would like to jump into the basics of the API and how to use it, check ou
 
 If you would prefer to jump directly into an example, check out one of the following:
 
-{% page-ref page="examples/fraud-detection.md" %}
-
-{% page-ref page="examples/recommender-system.md" %}
-
-{% page-ref page="examples/sentiment-analysis.md" %}
-
-We also have an example of using StreamSQL locally.
-
 {% page-ref page="examples/local-iris-dataset.md" %}
 
