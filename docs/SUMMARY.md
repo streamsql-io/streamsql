@@ -25,6 +25,6 @@
 * [Visualizing and Monitoring](feature-registry/visualizing-and-monitoring.md)
 * [Third-Party Features](feature-registry/third-party-features.md)
 * [Login](https://streamsql.io/login)
-* [Sign Up](https://streamsql.io)
-* [Join our Slack Community](https://streamsql.io)
+* [Sign Up](https://streamsql.io/register)
+* [Join our Slack Community](https://join.slack.com/t/streamsql-community/shared_invite/zt-fewd6dr4-~W9X7cJyegtDuilChlbUrg)
 
