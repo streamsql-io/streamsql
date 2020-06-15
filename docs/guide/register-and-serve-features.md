@@ -24,6 +24,27 @@ Some models simply cannot take data of certain data types. For example, neural n
 
 Feature definitions are defined using the `FeatureDef` object. They are then registered using the `register_feature` method of a `FeatureStore` object. A feature maps directly to a single table column defined in the [Data API](connect-and-upload-data.md), this includes [materialized views](transform-and-join-data.md).
 
+Each feature must define a parent entity which is used as the index for the underlying table. That means that the value provided for an entity is used to perform a lookup on the underlying table.
+
+Each feature definition also has versioning built-in. If a version is not provided, and the feature name is in use, the feature version will be automatically incremented. By default, all APIs that use features default to the newest version of the feature.
+
+The majority of feature definition parameters are common feature engineering operations such as outlier truncating and normalization.
+
+The full feature definition looks like this:
+
+```text
+FeatureDefintion(
+    name="",
+    version=1,
+    table="",
+    column="",
+    parent_entity="",
+    transform="",
+    normalize="",
+    truncate="",
+)
+```
+
 ## Feature Operations
 
 ### transformation
@@ -41,18 +62,30 @@ Transformations are applied on each element individually. They are a mapping fun
 
 Normalizing is a way to scale a feature's value range. This type of operation can only be applied to numeric columns. There are two kinds of supported normalization operations:
 
-* **MinMax:** Linearly scales everything down to fit between a min and max value.
-* **ZScore:** Z-Score normalization is defined as  $$y = \frac{x-\mu}{\sigma}$$ where x is the original value, $$\mu$$ is the mean, and $$\sigma$$ is the standard deviation. 
+* **MinMax\(\):** Linearly scales everything down to fit between a min and max value.
+* **ZScore\(\):** Z-Score normalization is defined as  $$y = \frac{x-\mu}{\sigma}$$ where x is the original value, $$\mu$$ is the mean, and $$\sigma$$ is the standard deviation. 
 
 ### binning
 
+Binning allows for numeric values to be turned into categories or binned numerical ones. For example, rather than an age field being a number, it can be turned into the values: "0-18", "18-40", "40+". There are currently three ways to define binning:
+
+* **Quantiles\(arr\):** Combines values into the given quantiles
+* **Ranges\(arr\)**: Combines values in the given ranges
+
 ### fill\_missing
+
+Values values can be filled with one of the following values:
+
+* **Zero\(\):** The zero value of the data type
+* **Median\(\):** The median value, numeric only
+* **Mean\(\)**: The mean value, numeric only
+* **FillValue\(value\):** A arbitrary value
 
 ### truncate
 
-## Serving Features
+Outliers can be truncated so that they fall into a specific range.
 
-### Entity Mappings
-
-## Examples
+* **ZScoreTrunc\(devs\):** Number of standard deviations away from the mean to truncate
+* **QuantileTrunc\(bottom, top\):** The bottom and top quantiles to truncate at.
+* **ValueTrunc\(bottom, top\):** Values are truncated to fall within bottom and top.
 
