@@ -121,6 +121,13 @@ class Column:
     def __getitem__(self, key):
         return self._series.loc[key]
 
+    def rename(self, name):
+        self.name = name
+        self._series.rename(name)
+
+    def copy(self):
+        return Column(self.name, self._series.copy())
+
     def transform(self, fn):
         self._series = self._series.transform(fn, column=self)
         return self

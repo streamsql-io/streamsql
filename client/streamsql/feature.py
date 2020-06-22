@@ -29,16 +29,25 @@ class Numeric:
 class _NumericFeature:
     def __init__(self, definition, column):
         self._def = definition
+        self._source_column = column
         self._column = self._transformed_column(column)
 
-    def _transformed_column(self, column):
-        return column.transform(self._apply_feature)
+    def column(self):
+        return self._column
+
+    def source_column(self):
+        return self._source_column
 
     def parent_entity(self):
         return self._def.parent_entity
 
     def lookup(self, entity):
         return self._column[entity]
+
+    def _transformed_column(self, column):
+        transformed = column.transform(self._apply_feature)
+        transformed.rename(self._def.name)
+        return transformed
 
     def _apply_feature(self, init_value, column):
         d = self._def
