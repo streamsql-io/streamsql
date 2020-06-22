@@ -118,6 +118,10 @@ class Column:
     def __getitem__(self, key):
         return self._series.loc[key]
 
+    def transform(self, fn):
+        self._series = self._series.transform(fn, column=self)
+        return self
+
     def min(self):
         return self._series.min()
 
