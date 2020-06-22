@@ -1,4 +1,4 @@
-from streamsql.errors import TableExistsError
+import streamsql.errors as errors
 import pandas
 from pandasql import sqldf
 
@@ -17,7 +17,7 @@ class FeatureStore:
     def create_table_from_csv(self, csv_file, table_name="", primary_key=""):
         """Create a table from a local csv file"""
         if table_name in self._tables:
-            raise TableExistsError(table_name)
+            raise errors.TableExistsError(table_name)
 
         table = Table.from_csv(table_name,
                                csv_file=csv_file,
@@ -69,7 +69,7 @@ class FeatureStore:
 
     def _register_feature(self, feature_def):
         if feature_def.name in self._features:
-            raise FeatureExistsError(feature.name)
+            raise errors.FeatureExistsError(feature.name)
         feature = feature_def._instatiate(self)
         self._features[feature_def.name] = feature
 
