@@ -23,7 +23,7 @@ setuptools.setup(
     license="AGPLv3",
     classifiers=[
         "License :: OSI Approved :: GNU Affero General Public License v3",
-        "Development Status :: 3 - Alpha"
+        "Development Status :: 3 - Alpha",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.6",
