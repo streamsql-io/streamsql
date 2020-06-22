@@ -5,7 +5,7 @@ from setuptools import find_packages, setup
 with open('requirements.txt', 'r') as req_file:
     requirements = [req.strip() for req in req_file.read().splitlines()]
 
-with open("../README.md") as f:
+with open("./README.md") as f:
     long_description = f.read()
 
 setuptools.setup(
