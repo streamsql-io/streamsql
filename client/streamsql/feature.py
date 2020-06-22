@@ -32,6 +32,9 @@ class _NumericFeature:
         self._source_column = column
         self._column = self._transformed_column(column)
 
+    def name(self):
+        return self._def.name
+
     def column(self):
         return self._column
 

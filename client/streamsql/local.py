@@ -13,6 +13,7 @@ class FeatureStore:
     def __init__(self):
         self._tables = dict()
         self._features = dict()
+        self._training_sets = dict()
 
     def create_table_from_csv(self, csv_file, table_name="", primary_key=None):
         """Create a table from a local csv file"""
@@ -67,6 +68,42 @@ class FeatureStore:
             for feature, entity in zip(features, entity_values)
         ]
 
+    def register_training_dataset(self,
+                                  name="",
+                                  label_source="",
+                                  label_column="",
+                                  features=None,
+                                  entity_mappings=None):
+        if name in self._training_sets:
+            raise errors.DatasetExistsError(name)
+        label_table = self.get_table(label_source)
+        merged_table = self._join_feature_columns(label_table, features,
+                                                  entity_mappings)
+        required_columns = features + [label_column]
+        training_dataset = merged_table.subtable(required_columns)
+        self._training_sets[name] = training_dataset
+
+    def generate_training_dataset(self, name):
+        return self._training_sets[name].to_dataframe()
+
+    def _join_feature_columns(self, label_table, feature_names,
+                              entity_mappings):
+        if entity_mappings is None:
+            entity_mappings = []
+
+        entity_to_clm = {
+            mapping["entity"]: mapping["label_field"]
+            for mapping in entity_mappings
+        }
+        features = [self._features[name] for name in feature_names]
+        merged_table = label_table.copy()
+        for feature in features:
+            clm = feature.column()
+            entity = feature.parent_entity()
+            merge_key = entity_to_clm.get(entity)
+            merged_table.merge_column(clm, left_on=merge_key)
+        return merged_table
+
     def _register_feature(self, feature_def):
         if feature_def.name in self._features:
             raise errors.FeatureExistsError(feature.name)
@@ -87,6 +124,18 @@ class Table:
         self.name = name
         self._dataframe = dataframe
 
+    def merge_column(self, clm, left_on=None):
+        if left_on is None:
+            self._dataframe = self._dataframe.merge(clm._series,
+                                                    left_index=True,
+                                                    right_index=True,
+                                                    suffixes=("_orig", ""))
+        else:
+            self._dataframe = self._dataframe.merge(clm._series,
+                                                    left_on=left_on,
+                                                    right_index=True,
+                                                    suffixes=("_orig", ""))
+
     def lookup(self, key):
         """Lookup returns an array from a table by its primary key"""
         item_series = self._dataframe.loc[key]
@@ -94,6 +143,15 @@ class Table:
 
     def column(self, col_name):
         return Column(col_name, self._dataframe[col_name])
+
+    def subtable(self, clms):
+        return Table(self.name, self._dataframe[clms])
+
+    def copy(self):
+        return Table(self.name, self._dataframe.copy())
+
+    def to_dataframe(self):
+        return self._dataframe.copy()
 
     def __eq__(self, other):
         if isinstance(other, Table):
