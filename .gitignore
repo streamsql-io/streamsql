@@ -5,3 +5,4 @@ client/build/
 *.pyc
 coverage.xml
 *.egg-info/
+client/dist/
