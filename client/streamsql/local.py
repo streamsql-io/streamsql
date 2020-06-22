@@ -14,7 +14,7 @@ class FeatureStore:
         self._tables = dict()
         self._features = dict()
 
-    def create_table_from_csv(self, csv_file, table_name="", primary_key=""):
+    def create_table_from_csv(self, csv_file, table_name="", primary_key=None):
         """Create a table from a local csv file"""
         if table_name in self._tables:
             raise errors.TableExistsError(table_name)
@@ -77,7 +77,7 @@ class FeatureStore:
 class Table:
     """Table is an in-memory implementation of the StreamSQL table"""
     @classmethod
-    def from_csv(cls, name, csv_file="", primary_key=""):
+    def from_csv(cls, name, csv_file="", primary_key=None):
         """Create a Table from a CSV file."""
         dataframe = Table._dataframe_from_csv(csv_file, primary_key)
         return cls(name, dataframe)
