@@ -107,7 +107,10 @@ class Table:
         return dataframe
 
     def _clean_dataframe(dataframe):
-        dataframe.index = dataframe.index.astype(str, copy=False)
+        is_row_num_index = dataframe.index.name is None
+        if not is_row_num_index:
+            # By default, if an index column is given, its treated as a string.
+            dataframe.index = dataframe.index.astype(str, copy=False)
 
 
 class Column:
