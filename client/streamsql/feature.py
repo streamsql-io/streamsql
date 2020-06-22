@@ -29,16 +29,18 @@ class Numeric:
 class _NumericFeature:
     def __init__(self, definition, column):
         self._def = definition
-        self._column = column
+        self._column = self._transformed_column(column)
+
+    def _transformed_column(self, column):
+        return column.transform(self._apply_feature)
 
     def parent_entity(self):
         return self._def.parent_entity
 
     def lookup(self, entity):
-        init_value = self._column[entity]
-        return self._apply_feature(self._column, init_value)
+        return self._column[entity]
 
-    def _apply_feature(self, column, init_value):
+    def _apply_feature(self, init_value, column):
         d = self._def
         fn_order = (d.fill_missing, d.truncate, d.normalize, d.transform)
         cur_value = init_value
