@@ -4,3 +4,4 @@ venv/
 client/build/
 *.pyc
 coverage.xml
+*.egg-info/
