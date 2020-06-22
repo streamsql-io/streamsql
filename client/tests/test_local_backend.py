@@ -48,13 +48,15 @@ def create_simple_iris_table(feature_store):
     return feature_store.create_table_from_csv(simple_iris_file,
                                                table_name="simple_iris")
 
+
 def simple_iris_training_dataframe():
     df = pd.read_csv(simple_iris_file)
     non_label_clms = df.columns[:-1]
     label_clm = df.columns[-1]
     feature_df = df[non_label_clms]
     scaler = MinMaxScaler(feature_range=(-1, 1))
-    scaled_feature_df = pd.DataFrame(scaler.fit_transform(feature_df), columns=non_label_clms)
+    scaled_feature_df = pd.DataFrame(scaler.fit_transform(feature_df),
+                                     columns=non_label_clms)
     training_df = scaled_feature_df
     training_df[label_clm] = df[label_clm]
     return training_df
@@ -69,10 +71,12 @@ def create_iris_table(feature_store):
                                                table_name="iris",
                                                primary_key="id")
 
+
 def create_iris_label_table(feature_store):
     return feature_store.create_table_from_csv(iris_label_file,
                                                table_name="iris_label",
                                                primary_key="id")
+
 
 def test_create_training_set_single_file(feature_store):
     create_simple_iris_table(feature_store)
@@ -86,16 +90,18 @@ def test_create_training_set_single_file(feature_store):
     fields = ["sepal_length", "sepal_width", "petal_length", "petal_width"]
     feature_defs = [scaled_flower_feature(field) for field in fields]
     feature_store.register_features(*feature_defs)
-    feature_store.register_training_dataset(name="training",
-                                            label_source="simple_iris",
-                                            label_column="class",
-                                            features=fields,
-                                            )
+    feature_store.register_training_dataset(
+        name="training",
+        label_source="simple_iris",
+        label_column="class",
+        features=fields,
+    )
     actual = feature_store.generate_training_dataset("training")
     # Some of the values will have different percisions. Index classes are
     # also different. This function is less strict and catches equivalence
     # better.
     pd.testing.assert_frame_equal(actual, expected, check_index_type=False)
+
 
 def test_create_training_set(feature_store):
     expected = iris_training_dataframe()
