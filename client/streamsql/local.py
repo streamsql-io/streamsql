@@ -59,12 +59,12 @@ class FeatureStore:
 
     def online_features(self, feature_names, entities={}):
         features = [self._features[name] for name in feature_names]
-        feature_entities = [
+        entity_values = [
             entities[feature.parent_entity()] for feature in features
         ]
         return [
             feature.lookup(entity)
-            for feature, entity in zip(features, feature_entities)
+            for feature, entity in zip(features, entity_values)
         ]
 
     def _register_feature(self, feature_def):
