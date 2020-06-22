@@ -4,12 +4,17 @@ import streamsql.errors
 import streamsql.feature
 import streamsql.operation
 import os
+from sklearn.preprocessing import MinMaxScaler
 import pandas as pd
 
 test_dir = os.path.dirname(os.path.realpath(__file__))
 testdata_dir = os.path.join(test_dir, 'testdata')
 users_file = os.path.join(testdata_dir, 'users.csv')
 purchases_file = os.path.join(testdata_dir, 'purchases.csv')
+iris_training_file = os.path.join(testdata_dir, 'iris-training-expected.csv')
+simple_iris_file = os.path.join(testdata_dir, 'iris-simple.csv')
+iris_file = os.path.join(testdata_dir, 'iris-lengths.csv')
+iris_label_file = os.path.join(testdata_dir, 'iris-classes.csv')
 
 
 @pytest.fixture
@@ -37,6 +42,86 @@ def create_purchases_table(feature_store):
     return feature_store.create_table_from_csv(purchases_file,
                                                table_name="purchases",
                                                primary_key="id")
+
+
+def create_simple_iris_table(feature_store):
+    return feature_store.create_table_from_csv(simple_iris_file,
+                                               table_name="simple_iris")
+
+def simple_iris_training_dataframe():
+    df = pd.read_csv(simple_iris_file)
+    non_label_clms = df.columns[:-1]
+    label_clm = df.columns[-1]
+    feature_df = df[non_label_clms]
+    scaler = MinMaxScaler(feature_range=(-1, 1))
+    scaled_feature_df = pd.DataFrame(scaler.fit_transform(feature_df), columns=non_label_clms)
+    training_df = scaled_feature_df
+    training_df[label_clm] = df[label_clm]
+    return training_df
+
+
+def iris_training_dataframe():
+    return pd.read_csv(iris_training_file, index_col="id")
+
+
+def create_iris_table(feature_store):
+    return feature_store.create_table_from_csv(iris_file,
+                                               table_name="iris",
+                                               primary_key="id")
+
+def create_iris_label_table(feature_store):
+    return feature_store.create_table_from_csv(iris_label_file,
+                                               table_name="iris_label",
+                                               primary_key="id")
+
+def test_create_training_set_single_file(feature_store):
+    create_simple_iris_table(feature_store)
+    expected = simple_iris_training_dataframe()
+    scaled_flower_feature = lambda field: streamsql.feature.Numeric(
+        name=field,
+        table="simple_iris",
+        column=field,
+        normalize=streamsql.operation.MinMax(-1, 1),
+    )
+    fields = ["sepal_length", "sepal_width", "petal_length", "petal_width"]
+    feature_defs = [scaled_flower_feature(field) for field in fields]
+    feature_store.register_features(*feature_defs)
+    feature_store.register_training_dataset(name="training",
+                                            label_source="simple_iris",
+                                            label_column="class",
+                                            features=fields,
+                                            )
+    actual = feature_store.generate_training_dataset("training")
+    # Some of the values will have different percisions. Index classes are
+    # also different. This function is less strict and catches equivalence
+    # better.
+    pd.testing.assert_frame_equal(actual, expected, check_index_type=False)
+
+def test_create_training_set(feature_store):
+    expected = iris_training_dataframe()
+    create_iris_table(feature_store)
+    create_iris_label_table(feature_store)
+    flower_feature = lambda field: streamsql.feature.Numeric(
+        name=field,
+        table="iris",
+        column=field,
+        parent_entity="flower",
+    )
+    fields = ["sepal_length", "sepal_width", "petal_length", "petal_width"]
+    feature_defs = [flower_feature(field) for field in fields]
+    feature_store.register_features(*feature_defs)
+    feature_store.register_training_dataset(name="training",
+                                            label_source="iris_label",
+                                            label_column="class",
+                                            features=fields,
+                                            entity_mappings=[{
+                                                "entity":
+                                                "flower",
+                                                "label_field":
+                                                "id"
+                                            }])
+    actual = feature_store.generate_training_dataset("training")
+    assert actual.equals(expected)
 
 
 def test_table_already_exists(feature_store):
