@@ -182,16 +182,15 @@ class Column:
     def name(self):
         return self._name
 
-    def rename(self, name):
-        self._name = name
-        self._series.rename(name)
-
-    def copy(self):
-        return Column(self.name, self._series.copy())
-
-    def transform(self, fn):
-        self._series = self._series.transform(fn, column=self)
-        return self
+    def transform(self, fn, name="", pass_column=False):
+        if name == "":
+            name = self._name
+        kwargs = dict()
+        if pass_column:
+            kwargs["column"] = self
+        copy = self._series.copy(deep=True)
+        transformed = copy.transform(fn, **kwargs)
+        return Column(name, transformed)
 
     def min(self):
         return self._series.min()
