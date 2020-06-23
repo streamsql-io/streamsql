@@ -173,14 +173,17 @@ class Table:
 
 class Column:
     def __init__(self, name, series):
-        self.name = name
+        self._name = name
         self._series = series
 
     def __getitem__(self, key):
         return self._series.loc[key]
 
+    def name(self):
+        return self._name
+
     def rename(self, name):
-        self.name = name
+        self._name = name
         self._series.rename(name)
 
     def copy(self):
