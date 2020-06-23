@@ -48,9 +48,9 @@ class _NumericFeature:
         return self._column[entity]
 
     def _transformed_column(self, column):
-        transformed = column.transform(self._apply_feature)
-        transformed.rename(self._def.name)
-        return transformed
+        return column.transform(self._apply_feature,
+                                name=self._def.name,
+                                pass_column=True)
 
     def _apply_feature(self, init_value, column):
         d = self._def
