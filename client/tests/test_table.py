@@ -1,13 +1,24 @@
 import pandas as pd
 import pytest
 import numpy as np
-from streamsql.local import Column
-import streamsql.operation as op
+import string
+from streamsql.local import Column, Table
+
+
+@pytest.fixture
+def alphabet_table():
+    data = zip(range(1, 27), string.ascii_lowercase)
+    df = pd.DataFrame(data, columns=["position", "character"])
+    return Table("alphabet", df)
 
 
 @pytest.fixture
 def count100clm():
     return Column("count100", pd.Series(range(1, 101)))
+
+
+def test_lookup(alphabet_table):
+    assert alphabet_table.lookup(3) == [4, 'd']
 
 
 def test_clm_getitem(count100clm):
