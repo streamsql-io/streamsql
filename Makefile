@@ -19,7 +19,6 @@ coverage.xml:
 
 # test also generates a coverage file.
 test:
-#	PYTHONPATH=$(PYTHONPATH):client coverage run --source streamsql -m pytest --verbose ./client/tests
 	coverage run --source streamsql -m pytest --verbose ./client/tests
 
 # format formats all python files in-place.
