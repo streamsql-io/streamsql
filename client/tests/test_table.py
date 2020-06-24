@@ -1,4 +1,4 @@
-import pandas
+import pandas as pd
 import pytest
 import numpy as np
 from streamsql.local import Column
@@ -7,7 +7,7 @@ import streamsql.operation as op
 
 @pytest.fixture
 def count100clm():
-    return Column("count100", pandas.Series(range(1, 101)))
+    return Column("count100", pd.Series(range(1, 101)))
 
 
 def test_clm_getitem(count100clm):
