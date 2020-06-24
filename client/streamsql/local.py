@@ -1,5 +1,6 @@
 import streamsql.errors as errors
 import pandas
+import uuid
 from pandasql import sqldf
 
 
@@ -96,13 +97,13 @@ class FeatureStore:
             for mapping in entity_mappings
         }
         features = [self._features[name] for name in feature_names]
-        merged_table = label_table.copy()
+        table_builder = label_table
         for feature in features:
             clm = feature.column()
             entity = feature.parent_entity()
             merge_key = entity_to_clm.get(entity)
-            merged_table.merge_column(clm, left_on=merge_key)
-        return merged_table
+            table_builder = table_builder.merge_column(clm, left_on=merge_key)
+        return table_builder
 
     def _register_feature(self, feature_def):
         if feature_def.name in self._features:
@@ -124,22 +125,28 @@ class Table:
         self.name = name
         self._dataframe = dataframe
 
-    def merge_column(self, clm, left_on=None):
+    def merge_column(self, clm, name=None, left_on=None):
+        if name is None:
+            name = uuid.uuid4()
         if left_on is None:
-            self._dataframe = self._dataframe.merge(clm._series,
-                                                    left_index=True,
-                                                    right_index=True,
-                                                    suffixes=("_orig", ""))
+            merged_df = self._dataframe.merge(clm._series,
+                                              left_index=True,
+                                              right_index=True,
+                                              suffixes=("_orig", ""))
         else:
-            self._dataframe = self._dataframe.merge(clm._series,
-                                                    left_on=left_on,
-                                                    right_index=True,
-                                                    suffixes=("_orig", ""))
+            merged_df = self._dataframe.merge(clm._series,
+                                              left_on=left_on,
+                                              right_index=True,
+                                              suffixes=("_orig", ""))
+        return Table(name, merged_df)
 
     def lookup(self, key):
         """Lookup returns an array from a table by its primary key"""
         item_series = self._dataframe.loc[key]
         return item_series.to_list()
+
+    def columns(self):
+        return self._dataframe.columns
 
     def column(self, col_name):
         return Column(col_name, self._dataframe[col_name])
@@ -147,11 +154,8 @@ class Table:
     def subtable(self, clms):
         return Table(self.name, self._dataframe[clms])
 
-    def copy(self):
-        return Table(self.name, self._dataframe.copy())
-
     def to_dataframe(self):
-        return self._dataframe.copy()
+        return self._dataframe
 
     def __eq__(self, other):
         if isinstance(other, Table):
