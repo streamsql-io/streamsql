@@ -174,6 +174,8 @@ class Table:
 class Column:
     def __init__(self, name, series):
         self._name = name
+        if series.name != name:
+            series.name = name
         self._series = series
 
     def __getitem__(self, key):
