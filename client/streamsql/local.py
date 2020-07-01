@@ -122,8 +122,11 @@ class Table:
 
     def __init__(self, name, dataframe):
         """Create a Table from a pandas.DataFrame"""
-        self.name = name
+        self._name = name
         self._dataframe = dataframe
+
+    def name(self):
+        return self._name
 
     def merge_column(self, clm, name=None, left_on=None):
         if name is None:
@@ -152,7 +155,7 @@ class Table:
         return Column(col_name, self._dataframe[col_name])
 
     def subtable(self, clms):
-        return Table(self.name, self._dataframe[clms])
+        return Table(self._name, self._dataframe[clms])
 
     def to_dataframe(self):
         return self._dataframe
