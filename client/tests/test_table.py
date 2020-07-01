@@ -7,8 +7,8 @@ from streamsql.local import Column, Table
 
 @pytest.fixture
 def alphabet_table():
-    data = zip(range(1, 27), string.ascii_lowercase)
-    df = pd.DataFrame(data, columns=["position", "character"])
+    data = zip(range(1, 27), string.ascii_lowercase, string.ascii_uppercase)
+    df = pd.DataFrame(data, columns=["position", "lower", "upper"])
     return Table("alphabet", df)
 
 
@@ -17,8 +17,38 @@ def count100clm():
     return Column("count100", pd.Series(range(1, 101)))
 
 
+def test_columns(alphabet_table):
+    assert (alphabet_table.columns() == ["position", "lower", "upper"]).all()
+
+
 def test_lookup(alphabet_table):
-    assert alphabet_table.lookup(3) == [4, 'd']
+    assert alphabet_table.lookup(3) == [4, 'd', 'D']
+
+
+def test_subtable(alphabet_table):
+    assert alphabet_table.subtable(["lower", "upper"]).lookup(3) == ['d', 'D']
+
+
+def test_merge_by_clm(alphabet_table):
+    index = reversed(string.ascii_lowercase)
+    series = pd.Series(range(0, 26), index=index)
+    new_col = Column("reverse", series)
+    merged = alphabet_table.merge_column(new_col, left_on="lower")
+    assert merged.lookup(3) == [4, 'd', 'D', 22]
+
+
+def test_merge_by_idx(alphabet_table):
+    new_col = Column("idx", pd.Series(range(0, 26)))
+    merged = alphabet_table.merge_column(new_col)
+    assert merged.lookup(3) == [4, 'd', 'D', 3]
+
+
+def test_merge_w_rename(alphabet_table):
+    new_col = Column("lower", pd.Series(range(0, 26)))
+    merged = alphabet_table.merge_column(new_col)
+    assert (merged.columns() == ["position", "lower_orig", "upper",
+                                 "lower"]).all()
+    assert merged.lookup(3) == [4, 'd', 'D', 3]
 
 
 def test_clm_getitem(count100clm):
