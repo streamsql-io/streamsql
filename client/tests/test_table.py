@@ -43,6 +43,12 @@ def test_merge_by_idx(alphabet_table):
     assert merged.lookup(3) == [4, 'd', 'D', 3]
 
 
+def test_merge_gen_name(alphabet_table):
+    new_col = Column("idx", pd.Series(range(0, 26)))
+    merged = alphabet_table.merge_column(new_col)
+    assert merged.name() != "alphabet"
+
+
 def test_merge_w_rename(alphabet_table):
     new_col = Column("lower", pd.Series(range(0, 26)))
     merged = alphabet_table.merge_column(new_col)
