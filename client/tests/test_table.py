@@ -51,10 +51,8 @@ def test_merge_gen_name(alphabet_table):
 
 def test_merge_w_rename(alphabet_table):
     new_col = Column("lower", pd.Series(range(0, 26)))
-    merged = alphabet_table.merge_column(new_col)
-    assert (merged.columns() == ["position", "lower_orig", "upper",
-                                 "lower"]).all()
-    assert merged.lookup(3) == [4, 'd', 'D', 3]
+    merged = alphabet_table.merge_column(new_col, name="new_table")
+    assert merged.name() == "new_table"
 
 
 def test_clm_getitem(count100clm):
