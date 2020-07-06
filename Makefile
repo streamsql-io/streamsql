@@ -1,10 +1,10 @@
 VENV := venv
-PYCMD := $(VENV_BIN)/python3
-
 VENV_BIN := ./$(VENV)/bin/
 ifeq ($(OS),Windows_NT)
 VENV_BIN := ./$(VENV)/Scripts/
 endif
+
+PYCMD := $(VENV_BIN)/python3
 
 SYS_PYCMD := python3
 # On Windows, if the python3 command is not found, use py -3
