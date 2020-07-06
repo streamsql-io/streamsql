@@ -4,7 +4,7 @@ ifeq ($(OS),Windows_NT)
 VENV_BIN := ./$(VENV)/Scripts/
 endif
 
-PYCMD := $(VENV_BIN)/python3
+PYCMD := $(VENV_BIN)python3
 
 SYS_PYCMD := python3
 # On Windows, if the python3 command is not found, use py -3
