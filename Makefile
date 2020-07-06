@@ -1,4 +1,4 @@
-VENV :=
+VENV := venv
 PYCMD := $(VENV_BIN)/python3
 
 VENV_BIN := ./$(VENV)/bin/
@@ -67,3 +67,25 @@ upgrade-pip:
 # Used in CI since setuptools was not included by default on Ubuntu.
 install-py-setuptools:
 	${SYS_PYCMD} -m pip install setuptools
+
+push-containers: push-containers-website
+
+push-containers-website: push-container-website-nginx push-container-website-landing
+
+push-container-website-nginx: container-website-nginx
+	docker tag streamsql/website/nginx us.gcr.io/halogen-rarity-278917/streamsql/nginx:latest
+	docker push us.gcr.io/halogen-rarity-278917/streamsql/nginx:latest
+
+push-container-website-landing: container-website-landing
+	docker tag streamsql/website/nginx us.gcr.io/halogen-rarity-278917/streamsql/landing:latest
+	docker push us.gcr.io/halogen-rarity-278917/streamsql/landing:latest
+
+containers: containers-website
+
+constainers-website: containers-website-landing containers-website-nginx
+
+container-website-landing:
+	docker build -t streamsql/landing website/landing
+
+container-website-nginx:
+	docker build -t streamsql/website/nginx website/nginx
