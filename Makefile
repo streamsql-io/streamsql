@@ -1,15 +1,19 @@
 VENV :=
-VENV_BIN := ./$(VENV)/bin/
 PYCMD := $(VENV_BIN)/python3
+
+VENV_BIN := ./$(VENV)/bin/
+ifeq ($(OS),Windows_NT)
+VENV_BIN := ./$(VENV)/Scripts/
+endif
 
 SYS_PYCMD := python3
 # On Windows, if the python3 command is not found, use py -3
 ifeq ($(OS),Windows_NT)
-PYCMD := python
+SYS_PYCMD := python
 # Check both which and where, depends on which shell is being used.
 ifeq (,$(shell which python))
 ifeq (,$(shell where python))
-PYCMD := py -3
+SYS_PYCMD := py -3
 endif
 endif
 endif
