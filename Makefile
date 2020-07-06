@@ -24,20 +24,23 @@ PYCMD := $(SYS_PYCMD)
 VENV_BIN :=
 endif
 
+COVERAGE := $(PYCMD) -m coverage
+FORMAT := $(PYCMD) -m yapf
+
 # print out test coverage to sysout.
 coverage: test
-	$(VENV_BIN)coverage report -m
+	$(COVERAGE) report -m
 
 coverage.xml: install-dev
-	$(VENV_BIN)coverage xml
+	$(COVERAGE) xml
 
 # test also generates a coverage file.
 test: install-dev
-	$(VENV_BIN)coverage run --source streamsql -m pytest --verbose ./client/tests
+	$(COVERAGE) run --source streamsql -m pytest --verbose ./client/tests
 
 # format formats all python files in-place.
 format: install-dev
-	$(VENV_BIN)yapf -i -r -p ./client/
+	$(FORMAT) -i -r -p ./client/
 
 clean:
 	rm install-dev
@@ -45,7 +48,7 @@ clean:
 
 # returns a non-zero value if code is not formatted.
 check-format: install-dev
-	$(VENV_BIN)yapf -r -p -q ./client/
+	$(FORMAT) -r -p -q ./client/
 
 # install-dev installs all dependencies for python development of streamsql.
 install-dev: $(VENV) ./client/requirements.txt
