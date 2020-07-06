@@ -10,7 +10,7 @@ with open("./README.md") as f:
 
 setuptools.setup(
     name="streamsql",
-    version="2.0.0",
+    version="2.0.1",
     url="https://github.com/streamsql-io/streamsql",
     description="Python SDK for the StreamSQL feature store",
     long_description=long_description,
