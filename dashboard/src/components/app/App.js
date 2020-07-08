@@ -1,15 +1,10 @@
-import React from 'react'
-import TopBar from 'components/topbar';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import React from "react";
+import Nav from "components/nav";
 
 function App() {
   return (
-    <React.Fragment>
-      <CssBaseline/>
-      <div>
-        <TopBar/>
-      </div>
-    </React.Fragment>
+    <Nav>
+    </Nav>
   );
 }
 
