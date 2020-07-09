@@ -118,9 +118,7 @@ const NavDrawer = ({ classes }) => (
   >
     <div className={classes.toolbar} />
     <Divider />
-    <List>
-      <ResourcesDrawerList />
-    </List>
+    <ResourcesDrawerList />
   </Drawer>
 );
 
@@ -136,7 +134,7 @@ const ResourcesDrawerList = ({ classes }) => {
 };
 
 const DrawerList = ({ classes, name, items }) => (
-  <React.Fragment>
+  <List>
     <ListSubheader>{name}</ListSubheader>
     {items.map(({ text, icon }) => (
       <ListItem button key={text}>
@@ -146,7 +144,7 @@ const DrawerList = ({ classes, name, items }) => (
         <ListItemText primary={text} />
       </ListItem>
     ))}
-  </React.Fragment>
+  </List>
 );
 
 export default Nav;
