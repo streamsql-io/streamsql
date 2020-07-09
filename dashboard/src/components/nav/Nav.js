@@ -119,6 +119,10 @@ const NavDrawer = ({ classes }) => (
     <div className={classes.toolbar} />
     <Divider />
     <ResourcesDrawerList />
+    <Divider />
+    <MonitoringDrawerList />
+    <Divider />
+    <AdminDrawerList />
   </Drawer>
 );
 
@@ -131,6 +135,25 @@ const ResourcesDrawerList = ({ classes }) => {
     { text: "Training Sets", icon: "archive" },
   ];
   return <DrawerList classes={classes} name="Resources" items={items} />;
+};
+
+const MonitoringDrawerList = ({ classes }) => {
+  const items = [
+    { text: "Metrics", icon: "chart-line" },
+    { text: "Deployment", icon: "server" },
+  ];
+  return <DrawerList classes={classes} name="Monitoring" items={items} />;
+};
+
+const AdminDrawerList = ({ classes }) => {
+  const items = [
+    { text: "Users", icon: "users" },
+    { text: "Settings", icon: "cogs" },
+    { text: "Billing", icon: "wallet" },
+    { text: "Documentation", icon: "book" },
+    { text: "Help", icon: "question" },
+  ];
+  return <DrawerList classes={classes} name="Administration" items={items} />;
 };
 
 const DrawerList = ({ classes, name, items }) => (
