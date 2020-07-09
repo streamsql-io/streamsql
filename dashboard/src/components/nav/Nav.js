@@ -5,9 +5,10 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
+import List from "@material-ui/core/List";
+import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -118,16 +119,34 @@ const NavDrawer = ({ classes }) => (
     <div className={classes.toolbar} />
     <Divider />
     <List>
-      {[{ text: "Data Sources", icon: "plus-circle" }].map(({ text, icon }) => (
-        <ListItem button key={text}>
-          <ListItemIcon>
-            <Icon className={`fa fa-${icon}`} />
-          </ListItemIcon>
-          <ListItemText primary={text} />
-        </ListItem>
-      ))}
+      <ResourcesDrawerList />
     </List>
   </Drawer>
+);
+
+const ResourcesDrawerList = ({ classes }) => {
+  const items = [
+    { text: "Data Sources", icon: "file-import" },
+    { text: "Materialized Views", icon: "copy" },
+    { text: "Features", icon: "file-code" },
+    { text: "Feature Sets", icon: "sitemap" },
+    { text: "Training Sets", icon: "archive" },
+  ];
+  return <DrawerList classes={classes} name="Resources" items={items} />;
+};
+
+const DrawerList = ({ classes, name, items }) => (
+  <React.Fragment>
+    <ListSubheader>{name}</ListSubheader>
+    {items.map(({ text, icon }) => (
+      <ListItem button key={text}>
+        <ListItemIcon>
+          <Icon className={`fa fa-${icon}`} />
+        </ListItemIcon>
+        <ListItemText primary={text} />
+      </ListItem>
+    ))}
+  </React.Fragment>
 );
 
 export default Nav;
