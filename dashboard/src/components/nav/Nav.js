@@ -139,7 +139,9 @@ const DrawerList = ({ classes, name, items }) => (
     {items.map(({ text, icon }) => (
       <ListItem button key={text}>
         <ListItemIcon>
-          <Icon className={`fa fa-${icon}`} />
+          {/* Prior to overflow being set to visible, fa-sitemap was being
+            cut-off since its slightly larger than a typical icon. */}
+          <Icon style={{ overflow: "visible" }} className={`fa fa-${icon}`} />
         </ListItemIcon>
         <ListItemText primary={text} />
       </ListItem>
