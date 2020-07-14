@@ -24,8 +24,9 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     position: "fixed",
+    zIndex: theme.zIndex.drawer + 1,
     top: 0,
-    left: drawerWidth,
+    left: 0,
     right: 0,
     overflow: "hidden",
   },
