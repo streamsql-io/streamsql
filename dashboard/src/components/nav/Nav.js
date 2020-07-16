@@ -6,12 +6,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
 import Box from "@material-ui/core/Box";
+import { PURPLE } from "styles/theme";
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import { BrowserRouter as Router, NavLink } from 'react-router-dom';
 
 import Icon from "@material-ui/core/Icon";
 
@@ -49,6 +51,14 @@ const useStyles = makeStyles((theme) => ({
     overflow: "hidden",
     flexWrap: "noWrap",
   },
+  navlink_active: {
+    color: PURPLE,
+    // Prior to this, elements inside of <a> were overriding color, this
+    // makes it more specific since we can't use !important.
+    "& span": {
+      color: PURPLE,
+    },
+  },
   main: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
@@ -76,17 +86,19 @@ const useStyles = makeStyles((theme) => ({
 const Nav = ({ children }) => {
   const classes = useStyles();
   return (
-    <Box display="flex" component="div" className={classes.root}>
-      <NavDrawer classes={classes} />
-      <Box className={classes.container}>
-        <TopBar classes={classes} />
-        <BelowTopBar classes={classes}>
-          <Box component="main" className={classes.main}>
-            {children}
-          </Box>
-        </BelowTopBar>
+    <Router>
+      <Box display="flex" component="div" className={classes.root}>
+        <NavDrawer classes={classes} />
+        <Box className={classes.container}>
+          <TopBar classes={classes} />
+          <BelowTopBar classes={classes}>
+            <Box component="main" className={classes.main}>
+              {children}
+            </Box>
+          </BelowTopBar>
+        </Box>
       </Box>
-    </Box>
+    </Router>
   );
 };
 
@@ -119,40 +131,40 @@ const NavDrawer = ({ classes }) => (
   >
     <div className={classes.toolbar} />
     <Divider />
-    <ResourcesDrawerList />
+    <ResourcesDrawerList classes={classes} />
     <Divider />
-    <MonitoringDrawerList />
+    <MonitoringDrawerList classes={classes} />
     <Divider />
-    <AdminDrawerList />
+    <AdminDrawerList classes={classes} />
   </Drawer>
 );
 
 const ResourcesDrawerList = ({ classes }) => {
   const items = [
-    { text: "Data Sources", icon: "file-import" },
-    { text: "Materialized Views", icon: "copy" },
-    { text: "Features", icon: "file-code" },
-    { text: "Feature Sets", icon: "sitemap" },
-    { text: "Training Sets", icon: "archive" },
+    { text: "Data Sources", icon: "file-import", path: "/sources" },
+    { text: "Materialized Views", icon: "copy", path: "/views" },
+    { text: "Features", icon: "file-code", path: "/features"},
+    { text: "Feature Sets", icon: "sitemap" , path: "/feature-sets" },
+    { text: "Training Sets", icon: "archive", path: "/training-sets" },
   ];
   return <DrawerList classes={classes} name="Resources" items={items} />;
 };
 
 const MonitoringDrawerList = ({ classes }) => {
   const items = [
-    { text: "Metrics", icon: "chart-line" },
-    { text: "Deployment", icon: "server" },
+    { text: "Metrics", icon: "chart-line", path: "/metrics" },
+    { text: "Deployment", icon: "server", path: "/deployment" },
   ];
   return <DrawerList classes={classes} name="Monitoring" items={items} />;
 };
 
 const AdminDrawerList = ({ classes }) => {
   const items = [
-    { text: "Users", icon: "users" },
-    { text: "Settings", icon: "cogs" },
-    { text: "Billing", icon: "wallet" },
-    { text: "Documentation", icon: "book" },
-    { text: "Help", icon: "question" },
+    { text: "Users", icon: "users", path: "/users" },
+    { text: "Settings", icon: "cogs", path: "/settings" },
+    { text: "Billing", icon: "wallet", path: "/billing" },
+    { text: "Documentation", icon: "book", path: "https://docs.streamsql.io", external: true },
+    { text: "Help", icon: "question", path: "/help" },
   ];
   return <DrawerList classes={classes} name="Administration" items={items} />;
 };
@@ -160,15 +172,17 @@ const AdminDrawerList = ({ classes }) => {
 const DrawerList = ({ classes, name, items }) => (
   <List>
     <ListSubheader>{name}</ListSubheader>
-    {items.map(({ text, icon }) => (
-      <ListItem button key={text}>
-        <ListItemIcon>
-          {/* Prior to overflow being set to visible, fa-sitemap was being
-            cut-off since its slightly larger than a typical icon. */}
-          <Icon style={{ overflow: "visible" }} className={`fa fa-${icon}`} />
-        </ListItemIcon>
-        <ListItemText primary={text} />
-      </ListItem>
+    {items.map(({ text, icon, path }) => (
+      <NavLink key={text} to={path} activeClassName={classes.navlink_active}>
+        <ListItem button>
+          <ListItemIcon>
+            {/* Prior to overflow being set to visible, fa-sitemap was being
+              cut-off since its slightly larger than a typical icon. */}
+            <Icon style={{ overflow: "visible" }} className={`fa fa-${icon}`} />
+          </ListItemIcon>
+          <ListItemText primary={text} />
+        </ListItem>
+      </NavLink>
     ))}
   </List>
 );
