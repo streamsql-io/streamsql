@@ -169,11 +169,11 @@ const AdminDrawerList = ({ classes }) => {
   return <DrawerList classes={classes} name="Administration" items={items} />;
 };
 
-const DrawerList = ({ classes, name, items }) => (
+const DrawerList = ({ classes, name, items, external }) => (
   <List>
     <ListSubheader>{name}</ListSubheader>
-    {items.map(({ text, icon, path }) => (
-      <NavLink key={text} to={path} activeClassName={classes.navlink_active}>
+    {items.map(({ text, icon, path, external }) => (
+      <DrawerListLink key={text} path={path} classes={classes} external={external}>
         <ListItem button>
           <ListItemIcon>
             {/* Prior to overflow being set to visible, fa-sitemap was being
@@ -182,9 +182,25 @@ const DrawerList = ({ classes, name, items }) => (
           </ListItemIcon>
           <ListItemText primary={text} />
         </ListItem>
-      </NavLink>
+      </DrawerListLink>
     ))}
   </List>
 );
+
+function DrawerListLink({ classes, path, external, children}) {
+  if (external) {
+    return (
+      // _blank opens a new tab and noopender noreferrer blocks a known security
+      // issue. Read more here: https://mathiasbynens.github.io/rel-noopener/
+      <a target="_blank" rel="noopener noreferrer" href={path}>{children}</a>
+    );
+  } else {
+    return (
+      <NavLink to={path} activeClassName={classes.navlink_active}>
+        {children}
+      </NavLink>
+    );
+  }
+}
 
 export default Nav;
