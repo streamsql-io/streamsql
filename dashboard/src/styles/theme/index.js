@@ -1,8 +1,8 @@
 import blueGrey from "@material-ui/core/colors/blueGrey";
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 
-const GREEN = "#27ae60";
-const PURPLE = "#8e44ad";
+export const GREEN = "#27ae60";
+export const PURPLE = "#8e44ad";
 
 const themeSpec = {
   palette: {
@@ -17,4 +17,5 @@ const themeSpec = {
 
 let theme = createMuiTheme(themeSpec);
 theme = responsiveFontSizes(theme);
+
 export default theme;
