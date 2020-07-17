@@ -102,7 +102,7 @@ const Nav = ({ children }) => {
   );
 };
 
-const TopBar = ({ classes }) => (
+export const TopBar = ({ classes }) => (
   <AppBar className={classes.appBar}>
     <Toolbar>
       <Typography component="span" variant="h5">
