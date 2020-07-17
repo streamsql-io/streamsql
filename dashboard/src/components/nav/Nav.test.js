@@ -3,7 +3,7 @@ import { configure, shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import renderer from "react-test-renderer";
 
-import { TopBar, DrawerLists, DrawerList, DrawerListLink } from "./Nav.js";
+import { DrawerLists, DrawerList, DrawerListLink, Nav, TopBar } from "./Nav.js";
 
 configure({ adapter: new Adapter() });
 
@@ -12,6 +12,11 @@ describe("Nav", () => {
     navlink_active: "",
     appBar: "",
   };
+
+  it("hasn't changed", () => {
+    const tree = renderer.create(<Nav><div>abc</div><div>def</div></Nav>).toJSON();
+    expect(tree).toMatchSnapshot();
+  });
 
   describe("TopBar", () => {
     it("hasn't changed", () => {
