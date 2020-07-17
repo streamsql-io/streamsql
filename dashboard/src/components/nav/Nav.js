@@ -13,7 +13,7 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import { BrowserRouter as Router, NavLink } from 'react-router-dom';
+import { BrowserRouter as Router, NavLink } from "react-router-dom";
 
 import Icon from "@material-ui/core/Icon";
 
@@ -143,8 +143,8 @@ const ResourcesDrawerList = ({ classes }) => {
   const items = [
     { text: "Data Sources", icon: "file-import", path: "/sources" },
     { text: "Materialized Views", icon: "copy", path: "/views" },
-    { text: "Features", icon: "file-code", path: "/features"},
-    { text: "Feature Sets", icon: "sitemap" , path: "/feature-sets" },
+    { text: "Features", icon: "file-code", path: "/features" },
+    { text: "Feature Sets", icon: "sitemap", path: "/feature-sets" },
     { text: "Training Sets", icon: "archive", path: "/training-sets" },
   ];
   return <DrawerList classes={classes} name="Resources" items={items} />;
@@ -163,7 +163,12 @@ const AdminDrawerList = ({ classes }) => {
     { text: "Users", icon: "users", path: "/users" },
     { text: "Settings", icon: "cogs", path: "/settings" },
     { text: "Billing", icon: "wallet", path: "/billing" },
-    { text: "Documentation", icon: "book", path: "https://docs.streamsql.io", external: true },
+    {
+      text: "Documentation",
+      icon: "book",
+      path: "https://docs.streamsql.io",
+      external: true,
+    },
     { text: "Help", icon: "question", path: "/help" },
   ];
   return <DrawerList classes={classes} name="Administration" items={items} />;
@@ -173,7 +178,12 @@ const DrawerList = ({ classes, name, items, external }) => (
   <List>
     <ListSubheader>{name}</ListSubheader>
     {items.map(({ text, icon, path, external }) => (
-      <DrawerListLink key={text} path={path} classes={classes} external={external}>
+      <DrawerListLink
+        key={text}
+        path={path}
+        classes={classes}
+        external={external}
+      >
         <ListItem button>
           <ListItemIcon>
             {/* Prior to overflow being set to visible, fa-sitemap was being
@@ -192,7 +202,9 @@ export function DrawerListLink({ classes, path, external, children }) {
     return (
       // _blank opens a new tab and noopender noreferrer blocks a known security
       // issue. Read more here: https://mathiasbynens.github.io/rel-noopener/
-      <a target="_blank" rel="noopener noreferrer" href={path}>{children}</a>
+      <a target="_blank" rel="noopener noreferrer" href={path}>
+        {children}
+      </a>
     );
   } else {
     return (
