@@ -39,5 +39,11 @@
     "enzyme-adapter-react-16": "^1.15.2",
     "prettier": "2.0.5",
     "typescript": "^3.9.7"
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/serviceWorker.js"
+    ]
   }
 }
