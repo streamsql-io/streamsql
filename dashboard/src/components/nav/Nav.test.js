@@ -3,7 +3,7 @@ import { configure, shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import renderer from "react-test-renderer";
 
-import { TopBar, DrawerListLink } from "./Nav.js";
+import { TopBar, DrawerLists, DrawerList, DrawerListLink } from "./Nav.js";
 
 configure({ adapter: new Adapter() });
 
@@ -20,6 +20,56 @@ describe("Nav", () => {
     });
   });
 
+  describe("DrawerLists", () => {
+    const drawerLists = shallow(
+      <DrawerLists classes={classes} sections={[{}, {}, {}]} />
+    );
+
+    it("renders sections", () => {
+      expect(drawerLists.find("DrawerList")).toHaveLength(3)
+    });
+
+    it("prepends divider", () => {
+      expect(drawerLists).toHaveLength(6)
+      for (var i of [0, 2, 4]) {
+        expect(drawerLists.at(i).name()).toMatch(/Divider/)
+      }
+    });
+  });
+
+  describe("DrawerList", () => {
+    const items = [
+      { text: "Users", icon: "users", path: "/users" },
+      { text: "Settings", icon: "cogs", path: "/settings" },
+      { text: "Billing", icon: "wallet", path: "/billing" },
+      {
+        text: "Documentation",
+        icon: "book",
+        path: "https://docs.streamsql.io",
+        external: true,
+      },
+      { text: "Help", icon: "question", path: "/help" },
+    ];
+    const name = "Test List";
+    const drawerList = shallow(
+      <DrawerList classes={classes} name={name} items={items} />
+    );
+    it("renders header", () => {
+      const header = drawerList.children().first();
+      expect(header.text()).toEqual(name);
+      // Material-UI wraps ListSubheader to add styles, so we use a regex.
+      expect(header.name()).toMatch(/ListSubheader/);
+    });
+
+    it("renders items", () => {
+      // Ignore the header
+      const renderedItems = drawerList.children().slice(1);
+      expect(renderedItems).toHaveLength(items.length);
+      renderedItems.forEach((node) => {
+        expect(node.name()).toEqual("DrawerListLink");
+      });
+    });
+  });
 
   describe("DrawerListLink", () => {
     // These tests are run on both internal and external NavLinks
