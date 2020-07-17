@@ -36,11 +36,11 @@ coverage.xml: install-dev
 
 # test also generates a coverage file.
 test: install-dev
-	$(COVERAGE) run --source streamsql -m pytest --verbose ./client/tests
+	$(COVERAGE) run --source streamsql -m pytest --verbose ./tests
 
 # format formats all python files in-place.
 format: install-dev
-	$(FORMAT) -i -r -p ./client/
+	$(FORMAT) -i -r -p ./
 
 clean:
 	rm install-dev
@@ -48,11 +48,11 @@ clean:
 
 # returns a non-zero value if code is not formatted.
 check-format: install-dev
-	$(FORMAT) -r -p -q ./client/
+	$(FORMAT) -r -p -q ./
 
 # install-dev installs all dependencies for python development of streamsql.
-install-dev: $(VENV) ./client/requirements.txt
-	${PYCMD} -m pip install -e client && touch install-dev
+install-dev: $(VENV) ./requirements.txt
+	${PYCMD} -m pip install -e . && touch install-dev
 
 # Create a Python virtual environment under ./venv
 $(VENV):
