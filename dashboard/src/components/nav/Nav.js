@@ -174,7 +174,7 @@ const AdminDrawerList = ({ classes }) => {
   return <DrawerList classes={classes} name="Administration" items={items} />;
 };
 
-const DrawerList = ({ classes, name, items, external }) => (
+export const DrawerList = ({ classes, name, items }) => (
   <List>
     <ListSubheader>{name}</ListSubheader>
     {items.map(({ text, icon, path, external }) => (
