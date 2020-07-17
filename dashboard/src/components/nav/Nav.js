@@ -130,49 +130,50 @@ const NavDrawer = ({ classes }) => (
     anchor="left"
   >
     <div className={classes.toolbar} />
-    <Divider />
-    <ResourcesDrawerList classes={classes} />
-    <Divider />
-    <MonitoringDrawerList classes={classes} />
-    <Divider />
-    <AdminDrawerList classes={classes} />
+    <DrawerLists classes={classes} sections={NavDrawerSections} />
   </Drawer>
 );
 
-const ResourcesDrawerList = ({ classes }) => {
-  const items = [
-    { text: "Data Sources", icon: "file-import", path: "/sources" },
-    { text: "Materialized Views", icon: "copy", path: "/views" },
-    { text: "Features", icon: "file-code", path: "/features" },
-    { text: "Feature Sets", icon: "sitemap", path: "/feature-sets" },
-    { text: "Training Sets", icon: "archive", path: "/training-sets" },
-  ];
-  return <DrawerList classes={classes} name="Resources" items={items} />;
-};
+const NavDrawerSections = [
+  {
+    name: "Resources",
+    items: [
+      { text: "Data Sources", icon: "file-import", path: "/sources" },
+      { text: "Materialized Views", icon: "copy", path: "/views" },
+      { text: "Features", icon: "file-code", path: "/features" },
+      { text: "Feature Sets", icon: "sitemap", path: "/feature-sets" },
+      { text: "Training Sets", icon: "archive", path: "/training-sets" },
+    ],
+  },
+  {
+    name: "Monitoring",
+    items: [
+      { text: "Metrics", icon: "chart-line", path: "/metrics" },
+      { text: "Deployment", icon: "server", path: "/deployment" },
+    ],
+  },
+  {
+    name: "Admin",
+    items: [
+      { text: "Users", icon: "users", path: "/users" },
+      { text: "Settings", icon: "cogs", path: "/settings" },
+      { text: "Billing", icon: "wallet", path: "/billing" },
+      {
+        text: "Documentation",
+        icon: "book",
+        path: "https://docs.streamsql.io",
+        external: true,
+      },
+      { text: "Help", icon: "question", path: "/help" },
+    ],
+  },
+];
 
-const MonitoringDrawerList = ({ classes }) => {
-  const items = [
-    { text: "Metrics", icon: "chart-line", path: "/metrics" },
-    { text: "Deployment", icon: "server", path: "/deployment" },
-  ];
-  return <DrawerList classes={classes} name="Monitoring" items={items} />;
-};
-
-const AdminDrawerList = ({ classes }) => {
-  const items = [
-    { text: "Users", icon: "users", path: "/users" },
-    { text: "Settings", icon: "cogs", path: "/settings" },
-    { text: "Billing", icon: "wallet", path: "/billing" },
-    {
-      text: "Documentation",
-      icon: "book",
-      path: "https://docs.streamsql.io",
-      external: true,
-    },
-    { text: "Help", icon: "question", path: "/help" },
-  ];
-  return <DrawerList classes={classes} name="Administration" items={items} />;
-};
+export const DrawerLists = ({ classes, sections }) =>
+  sections
+    .map((sectionProps) => <DrawerList classes={classes} {...sectionProps} />)
+    // Add a divider before each section
+    .flatMap((section) => [<Divider />, section]);
 
 export const DrawerList = ({ classes, name, items }) => (
   <List>
