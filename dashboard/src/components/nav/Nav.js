@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Nav = ({ children }) => {
+export const Nav = ({ children }) => {
   const classes = useStyles();
   return (
     <Router>
