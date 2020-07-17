@@ -3,7 +3,7 @@ import { configure, shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import renderer from "react-test-renderer";
 
-import { DrawerListLink } from "./Nav.js";
+import { TopBar, DrawerListLink } from "./Nav.js";
 
 configure({ adapter: new Adapter() });
 
@@ -12,6 +12,14 @@ describe("Nav", () => {
     navlink_active: "",
     appBar: "",
   };
+
+  describe("TopBar", () => {
+    it("hasn't changed", () => {
+      const tree = renderer.create(<TopBar classes={classes} />).toJSON();
+      expect(tree).toMatchSnapshot();
+    });
+  });
+
 
   describe("DrawerListLink", () => {
     // These tests are run on both internal and external NavLinks
