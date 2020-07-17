@@ -187,7 +187,7 @@ const DrawerList = ({ classes, name, items, external }) => (
   </List>
 );
 
-function DrawerListLink({ classes, path, external, children}) {
+export function DrawerListLink({ classes, path, external, children }) {
   if (external) {
     return (
       // _blank opens a new tab and noopender noreferrer blocks a known security
