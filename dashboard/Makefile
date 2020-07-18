@@ -2,23 +2,23 @@
 # to make sure that it always runs even if the coverage directory has been
 # generated.
 .PHONY: coverage
-coverage: install
+coverage: install-dev
 	npm test -- --coverage
 
 # Run all tests in src/ that end in .test.js or .spec.js. Outside of the CI this
 # runs tests on all affected files that would be committed.
-test: install
+test: install-dev
 	npm run test
 
 clean:
 	rm build/.install-dev
 
 # format formats all HTML/CSS/JS/JSON/etc. files in-place.
-format: install
+format: install-dev
 	npx prettier --write .
 
 # returns a non-zero value if code is not formatted.
-check-format: install
+check-format: install-dev
 	npx prettier --check .
 
 install-dev: build/.install-dev
