@@ -73,8 +73,7 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         file: ./coverage.xml
-        flags: python,client
-        env_vars: OS,PYTHON
+        flags: ${{ matrix.os }},python,python-${{ matrix.python }},client
         name: ci-codecov
         # This action has a tendency to timeout
         fail_ci_if_error: false
