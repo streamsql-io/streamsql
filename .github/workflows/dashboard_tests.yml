@@ -35,7 +35,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-${{ matrix.node }}-node_modules-
     - name: Install dependencies
-      if: steps.venvcache.outputs.cache-hit != 'true'
+      if: steps.nodecache.outputs.cache-hit != 'true'
       run: |
         make install-dev
     - name: Check format
