@@ -50,7 +50,7 @@ jobs:
     - name: Codecov
       uses: codecov/codecov-action@v1
       with:
-        file: ./coverage/coverage-final.json
+        directory: ./coverage
         flags: ${{ matrix.os }},node,node-${{ matrix.node }},dashboard
         name: ci-codecov
         # This action has a tendency to timeout
