@@ -43,9 +43,7 @@ jobs:
         make check-format
     - name: Test
       run: |
-        make test
-    - name: Generate coverage directory
-      run: |
+        # Generating a coverage report also runs the tests.
         make coverage
     - name: Codecov
       uses: codecov/codecov-action@v1
