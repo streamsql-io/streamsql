@@ -4,13 +4,11 @@ on:
   push:
     paths:
     - 'client/**'
-    - 'Makefile'
-    - '.github/workflows/unit_tests.yml'
+    - '.github/workflows/client_tests.yml'
   pull_request:
     paths:
     - 'client/**'
-    - 'Makefile'
-    - '.github/workflows/unit_tests.yml'
+    - '.github/workflows/client_tests.yml'
 
 jobs:
   python:
