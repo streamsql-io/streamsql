@@ -18,7 +18,7 @@ setuptools.setup(
     author="The StreamSQL Team",
     author_email="simba@streamsql.io",
     install_requires=requirements,
-    python_requires=">=3.6.0",
+    python_requires=">=3.5.0",
     packages=setuptools.find_packages(exclude=("tests", )),
     license="AGPLv3",
     classifiers=[
@@ -26,7 +26,7 @@ setuptools.setup(
         "Development Status :: 3 - Alpha",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.5",
         "Operating System :: OS Independent",
     ],
 )
