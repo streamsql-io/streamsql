@@ -11,7 +11,7 @@ on:
     - '.github/workflows/dashboard_tests.yml'
 
 jobs:
-  python:
+  dashboard_unittests:
     runs-on: ${{ matrix.os }}
     defaults:
       run:
