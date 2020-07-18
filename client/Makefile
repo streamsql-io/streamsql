@@ -40,7 +40,7 @@ test: install-dev
 
 # format formats all python files in-place.
 format: install-dev
-	$(FORMAT) -i -r -p ./
+	$(FORMAT) -i -r -p ./streamsql ./tests
 
 clean:
 	rm install-dev
@@ -48,7 +48,7 @@ clean:
 
 # returns a non-zero value if code is not formatted.
 check-format: install-dev
-	$(FORMAT) -r -p -q ./
+	$(FORMAT) -r -p -q ./streamsql ./tests
 
 # install-dev installs all dependencies for python development of streamsql.
 install-dev: $(VENV) ./requirements.txt
