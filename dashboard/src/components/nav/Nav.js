@@ -171,9 +171,11 @@ const NavDrawerSections = [
 
 export const DrawerLists = ({ classes, sections }) =>
   sections
-    .map((sectionProps) => <DrawerList classes={classes} {...sectionProps} />)
+    .map((sectionProps) => (
+      <DrawerList key={sectionProps.name} classes={classes} {...sectionProps} />
+    ))
     // Add a divider before each section
-    .flatMap((section) => [<Divider />, section]);
+    .flatMap((section, idx) => [<Divider key={idx} />, section]);
 
 export const DrawerList = ({ classes, name, items }) => (
   <List>
