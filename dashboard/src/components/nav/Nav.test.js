@@ -14,7 +14,14 @@ describe("Nav", () => {
   };
 
   it("hasn't changed", () => {
-    const tree = renderer.create(<Nav><div>abc</div><div>def</div></Nav>).toJSON();
+    const tree = renderer
+      .create(
+        <Nav>
+          <div>abc</div>
+          <div>def</div>
+        </Nav>
+      )
+      .toJSON();
     expect(tree).toMatchSnapshot();
   });
 
@@ -31,13 +38,13 @@ describe("Nav", () => {
     );
 
     it("renders sections", () => {
-      expect(drawerLists.find("DrawerList")).toHaveLength(3)
+      expect(drawerLists.find("DrawerList")).toHaveLength(3);
     });
 
     it("prepends divider", () => {
-      expect(drawerLists).toHaveLength(6)
+      expect(drawerLists).toHaveLength(6);
       for (var i of [0, 2, 4]) {
-        expect(drawerLists.at(i).name()).toMatch(/Divider/)
+        expect(drawerLists.at(i).name()).toMatch(/Divider/);
       }
     });
   });
