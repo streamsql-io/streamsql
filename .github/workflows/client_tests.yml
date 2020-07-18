@@ -11,7 +11,7 @@ on:
     - '.github/workflows/client_tests.yml'
 
 jobs:
-  python:
+  python_client_unittests:
     runs-on: ${{ matrix.os }}
     defaults:
       run:
