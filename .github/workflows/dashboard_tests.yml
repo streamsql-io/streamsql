@@ -1,0 +1,56 @@
+name: Dashboard Unit Tests
+
+on:
+  push:
+    paths:
+    - 'dashboard/**'
+    - '.github/workflows/dashboard_tests.yml'
+  pull_request:
+    paths:
+    - 'dashboard/**'
+    - '.github/workflows/dashboard_tests.yml'
+
+jobs:
+  python:
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: "./dashboard"
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [12.x, 14.x]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Node.js ${{ matrix.node }}
+      uses: actions/setup-python@v2
+      with:
+        node-version: ${{ matrix.node }}
+    - name: Install dependencies
+      if: steps.venvcache.outputs.cache-hit != 'true'
+      run: |
+        make upgrade-pip
+        make install-dev
+      with:
+        path: "./node_modules"
+        key: ${{ runner.os }}-${{ matrix.node }}-node_modules-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-${{ matrix.node }}-node_modules-
+    - name: Check format
+      run: |
+        make check-format
+    - name: Test
+      run: |
+        make test
+    - name: Generate coverage.xml
+      run: |
+        make coverage
+    - name: Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        file: ./coverage/coverage-final.json
+        flags: dashboard
+        env_vars: OS,NODE
+        name: ci-codecov
+        # This action has a tendency to timeout
+        fail_ci_if_error: false
