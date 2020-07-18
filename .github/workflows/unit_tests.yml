@@ -37,12 +37,12 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-${{ matrix.python }}-venv-
     - name: Install virtualenv
-      if: runner.os != 'Linux' && steps.venvcache.outputs.cache-hit != 'true'
+      if: runner.os != 'Linux'
       run: |
         make install-py-setuptools
         make install-venv
     - name: Install virtualenv on Ubuntu
-      if: runner.os == 'Linux' && steps.venvcache.outputs.cache-hit != 'true'
+      if: runner.os == 'Linux'
       run: |
         sudo apt-get install -y python3-setuptools python3-venv
     - name: Setup virtualenv
