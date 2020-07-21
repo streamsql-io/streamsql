@@ -83,12 +83,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Nav = ({ children }) => {
+export const Nav = ({ children, sections }) => {
   const classes = useStyles();
   return (
     <Router>
       <Box display="flex" component="div" className={classes.root}>
-        <NavDrawer classes={classes} />
+        <NavDrawer classes={classes} sections={sections} />
         <Box className={classes.container}>
           <TopBar classes={classes} />
           <BelowTopBar classes={classes}>
@@ -120,7 +120,7 @@ const BelowTopBar = ({ children, classes }) => (
   </Grid>
 );
 
-const NavDrawer = ({ classes }) => (
+const NavDrawer = ({ classes, sections }) => (
   <Drawer
     className={classes.drawer}
     variant="permanent"
@@ -130,44 +130,9 @@ const NavDrawer = ({ classes }) => (
     anchor="left"
   >
     <div className={classes.toolbar} />
-    <DrawerLists classes={classes} sections={NavDrawerSections} />
+    <DrawerLists classes={classes} sections={sections} />
   </Drawer>
 );
-
-const NavDrawerSections = [
-  {
-    name: "Resources",
-    items: [
-      { text: "Data Sources", icon: "file-import", path: "/sources" },
-      { text: "Materialized Views", icon: "copy", path: "/views" },
-      { text: "Features", icon: "file-code", path: "/features" },
-      { text: "Feature Sets", icon: "sitemap", path: "/feature-sets" },
-      { text: "Training Sets", icon: "archive", path: "/training-sets" },
-    ],
-  },
-  {
-    name: "Monitoring",
-    items: [
-      { text: "Metrics", icon: "chart-line", path: "/metrics" },
-      { text: "Deployment", icon: "server", path: "/deployment" },
-    ],
-  },
-  {
-    name: "Admin",
-    items: [
-      { text: "Users", icon: "users", path: "/users" },
-      { text: "Settings", icon: "cogs", path: "/settings" },
-      { text: "Billing", icon: "wallet", path: "/billing" },
-      {
-        text: "Documentation",
-        icon: "book",
-        path: "https://docs.streamsql.io",
-        external: true,
-      },
-      { text: "Help", icon: "question", path: "/help" },
-    ],
-  },
-];
 
 export const DrawerLists = ({ classes, sections }) =>
   sections
