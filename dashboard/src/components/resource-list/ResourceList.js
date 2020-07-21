@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Sources = ({ title }) => {
+export const ResourceList = ({ title }) => {
   const classes = useStyles();
   return (
     // MaterialTable doesn't support className, so we wrap it in a Box:
@@ -28,4 +28,4 @@ export const Sources = ({ title }) => {
   );
 };
 
-export default Sources;
+export default ResourceList;
