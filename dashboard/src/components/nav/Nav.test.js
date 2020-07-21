@@ -18,33 +18,33 @@ describe("Nav", () => {
       {
         name: "Resources",
         items: [
-          { text: "Data Sources", icon: "file-import", path: "/sources" },
-          { text: "Materialized Views", icon: "copy", path: "/views" },
-          { text: "Features", icon: "file-code", path: "/features" },
-          { text: "Feature Sets", icon: "sitemap", path: "/feature-sets" },
-          { text: "Training Sets", icon: "archive", path: "/training-sets" },
+          { title: "Data Sources", icon: "file-import", path: "/sources" },
+          { title: "Materialized Views", icon: "copy", path: "/views" },
+          { title: "Features", icon: "file-code", path: "/features" },
+          { title: "Feature Sets", icon: "sitemap", path: "/feature-sets" },
+          { title: "Training Sets", icon: "archive", path: "/training-sets" },
         ],
       },
       {
         name: "Monitoring",
         items: [
-          { text: "Metrics", icon: "chart-line", path: "/metrics" },
-          { text: "Deployment", icon: "server", path: "/deployment" },
+          { title: "Metrics", icon: "chart-line", path: "/metrics" },
+          { title: "Deployment", icon: "server", path: "/deployment" },
         ],
       },
       {
         name: "Admin",
         items: [
-          { text: "Users", icon: "users", path: "/users" },
-          { text: "Settings", icon: "cogs", path: "/settings" },
-          { text: "Billing", icon: "wallet", path: "/billing" },
+          { title: "Users", icon: "users", path: "/users" },
+          { title: "Settings", icon: "cogs", path: "/settings" },
+          { title: "Billing", icon: "wallet", path: "/billing" },
           {
-            text: "Documentation",
+            title: "Documentation",
             icon: "book",
             path: "https://docs.streamsql.io",
             external: true,
           },
-          { text: "Help", icon: "question", path: "/help" },
+          { title: "Help", icon: "question", path: "/help" },
         ],
       },
     ];
@@ -86,16 +86,16 @@ describe("Nav", () => {
 
   describe("DrawerList", () => {
     const items = [
-      { text: "Users", icon: "users", path: "/users" },
-      { text: "Settings", icon: "cogs", path: "/settings" },
-      { text: "Billing", icon: "wallet", path: "/billing" },
+      { title: "Users", icon: "users", path: "/users" },
+      { title: "Settings", icon: "cogs", path: "/settings" },
+      { title: "Billing", icon: "wallet", path: "/billing" },
       {
-        text: "Documentation",
+        title: "Documentation",
         icon: "book",
         path: "https://docs.streamsql.io",
         external: true,
       },
-      { text: "Help", icon: "question", path: "/help" },
+      { title: "Help", icon: "question", path: "/help" },
     ];
     const name = "Test List";
     const drawerList = shallow(
