@@ -145,9 +145,9 @@ export const DrawerLists = ({ classes, sections }) =>
 export const DrawerList = ({ classes, name, items }) => (
   <List>
     <ListSubheader>{name}</ListSubheader>
-    {items.map(({ text, icon, path, external }) => (
+    {items.map(({ title, icon, path, external }) => (
       <DrawerListLink
-        key={text}
+        key={title}
         path={path}
         classes={classes}
         external={external}
@@ -158,7 +158,7 @@ export const DrawerList = ({ classes, name, items }) => (
               cut-off since its slightly larger than a typical icon. */}
             <Icon style={{ overflow: "visible" }} className={`fa fa-${icon}`} />
           </ListItemIcon>
-          <ListItemText primary={text} />
+          <ListItemText primary={title} />
         </ListItem>
       </DrawerListLink>
     ))}
