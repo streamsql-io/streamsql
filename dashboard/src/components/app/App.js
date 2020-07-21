@@ -3,6 +3,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "styles/theme";
 import { ThemeProvider } from "@material-ui/core/styles";
 import Nav from "components/nav";
+import ResourceList from "components/resource-list";
 
 const sections = [
   {
@@ -41,9 +42,17 @@ const sections = [
 
 export const App = (props) => (
   <Wrapper>
-    <Nav sections={sections}></Nav>
+    <Nav sections={sections}>
+      <ResourceList />
+    </Nav>
   </Wrapper>
 );
+
+export function parseContentProps(sections) {
+  return sections
+    .flatMap((section) => section.items)
+    .map((item) => ({ title: item.title }));
+}
 
 export const Wrapper = ({ children }) => (
   <ThemeProvider theme={theme}>
