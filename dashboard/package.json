@@ -39,6 +39,7 @@
   "devDependencies": {
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-to-json": "^3.5.0",
     "prettier": "2.0.5",
     "typescript": "^3.9.7"
   },
@@ -46,6 +47,9 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "/serviceWorker.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
     ]
   }
 }
