@@ -4,6 +4,7 @@ import theme from "styles/theme";
 import { ThemeProvider } from "@material-ui/core/styles";
 import Nav from "components/nav";
 import ResourceList from "components/resource-list";
+import { Route } from "react-router-dom";
 
 const sections = [
   {
@@ -42,16 +43,23 @@ const sections = [
 
 export const App = (props) => (
   <Wrapper>
-    <Nav sections={sections}>
-      <ResourceList />
-    </Nav>
+    <Nav sections={sections}>{routes(sections)}</Nav>
   </Wrapper>
 );
+
+function routes(sections) {
+  return parseContentProps(sections).map((item) => (
+    <Route key={item.path} path={item.path}>
+      <ResourceList title={item.title} />
+    </Route>
+  ));
+}
 
 export function parseContentProps(sections) {
   return sections
     .flatMap((section) => section.items)
-    .map((item) => ({ title: item.title }));
+    .filter((item) => !item.external)
+    .map((item) => ({ title: item.title, path: item.path }));
 }
 
 export const Wrapper = ({ children }) => (
