@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App hasn't changed 1`] = `
+<Wrapper>
+  <Nav
+    sections={
+      Array [
+        Object {
+          "items": Array [
+            Object {
+              "icon": "file-import",
+              "path": "/sources",
+              "title": "Data Sources",
+            },
+            Object {
+              "icon": "copy",
+              "path": "/views",
+              "title": "Materialized Views",
+            },
+            Object {
+              "icon": "file-code",
+              "path": "/features",
+              "title": "Features",
+            },
+            Object {
+              "icon": "sitemap",
+              "path": "/feature-sets",
+              "title": "Feature Sets",
+            },
+            Object {
+              "icon": "archive",
+              "path": "/training-sets",
+              "title": "Training Sets",
+            },
+          ],
+          "name": "Resources",
+        },
+        Object {
+          "items": Array [
+            Object {
+              "icon": "chart-line",
+              "path": "/metrics",
+              "title": "Metrics",
+            },
+            Object {
+              "icon": "server",
+              "path": "/deployment",
+              "title": "Deployment",
+            },
+          ],
+          "name": "Monitoring",
+        },
+        Object {
+          "items": Array [
+            Object {
+              "icon": "users",
+              "path": "/users",
+              "title": "Users",
+            },
+            Object {
+              "icon": "cogs",
+              "path": "/settings",
+              "title": "Settings",
+            },
+            Object {
+              "icon": "wallet",
+              "path": "/billing",
+              "title": "Billing",
+            },
+            Object {
+              "external": true,
+              "icon": "book",
+              "path": "https://docs.streamsql.io",
+              "title": "Documentation",
+            },
+            Object {
+              "icon": "question",
+              "path": "/help",
+              "title": "Help",
+            },
+          ],
+          "name": "Admin",
+        },
+      ]
+    }
+  >
+    <ResourceList />
+  </Nav>
+</Wrapper>
+`;
