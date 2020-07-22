@@ -2,11 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "styles/base.css";
 import App from "./components/app";
+import ReduxWrapper from "./components/redux/wrapper";
+import ReduxStore from "./components/redux/store";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />,
+    <ReduxWrapper store={ReduxStore}>
+      <App />,
+    </ReduxWrapper>
   </React.StrictMode>,
   document.querySelector("#root")
 );

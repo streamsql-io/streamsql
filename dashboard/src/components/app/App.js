@@ -6,18 +6,11 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import Nav from "components/nav";
 import ResourceList from "components/resource-list";
 import { Redirect, Route } from "react-router-dom";
-import { configureStore } from "@reduxjs/toolkit";
-import { Provider } from "react-redux";
-import rootReducer from "reducers";
-
-const store = configureStore({
-  reducer: rootReducer,
-});
 
 export const App = ({ sections }) => (
-  <Wrapper>
+  <ThemeWrapper>
     <Nav sections={sections}>{routes(sections)}</Nav>
-  </Wrapper>
+  </ThemeWrapper>
 );
 
 function routes(sections) {
@@ -54,13 +47,11 @@ export function parseContentProps(sections) {
     .map((item) => ({ title: item.title, path: item.path }));
 }
 
-export const Wrapper = ({ children }) => (
-  <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {children}
-    </ThemeProvider>
-  </Provider>
+export const ThemeWrapper = ({ children }) => (
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    {children}
+  </ThemeProvider>
 );
 
 const mapStateToProps = (state) => ({
