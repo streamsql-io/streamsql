@@ -4,7 +4,7 @@ import "jest-canvas-mock";
 import { configure, shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 
-import { App, parseContentProps, Wrapper } from "./App.js";
+import { App, indexPath, parseContentProps, Wrapper } from "./App.js";
 
 configure({ adapter: new Adapter() });
 
@@ -25,32 +25,33 @@ describe("App", () => {
     });
   });
 
+  const example_sections = [
+    {
+      name: "Resources",
+      items: [
+        { title: "Data Sources", icon: "file-import", path: "/sources" },
+        { title: "Features", icon: "file-code", path: "/features" },
+      ],
+    },
+    {
+      name: "Monitoring",
+      items: [],
+    },
+    {
+      name: "Admin",
+      items: [
+        { title: "Users", icon: "users", path: "/users" },
+        {
+          title: "Documentation",
+          icon: "book",
+          path: "https://docs.streamsql.io",
+          external: true,
+        },
+      ],
+    },
+  ];
+
   describe("parseContentProps", () => {
-    const example_sections = [
-      {
-        name: "Resources",
-        items: [
-          { title: "Data Sources", icon: "file-import", path: "/sources" },
-          { title: "Features", icon: "file-code", path: "/features" },
-        ],
-      },
-      {
-        name: "Monitoring",
-        items: [],
-      },
-      {
-        name: "Admin",
-        items: [
-          { title: "Users", icon: "users", path: "/users" },
-          {
-            title: "Documentation",
-            icon: "book",
-            path: "https://docs.streamsql.io",
-            external: true,
-          },
-        ],
-      },
-    ];
 
     it("parses correctly", () => {
       const expected = [
@@ -60,6 +61,19 @@ describe("App", () => {
       ];
       const actual = parseContentProps(example_sections);
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe("indexPath", () => {
+    it("choses first path", () => {
+      const content = parseContentProps(example_sections);
+      expect(indexPath(content)).toEqual("/sources");
+    });
+
+    it("throws on empty content", () => {
+      // When catching the error, the throwing call must be wrapped in a lambda:
+      // See: https://jestjs.io/docs/en/expect.html#tothrowerror
+      expect(() => indexPath([])).toThrow();
     });
   });
 });

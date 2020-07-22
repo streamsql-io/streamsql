@@ -4,7 +4,7 @@ import theme from "styles/theme";
 import { ThemeProvider } from "@material-ui/core/styles";
 import Nav from "components/nav";
 import ResourceList from "components/resource-list";
-import { Route } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 
 const sections = [
   {
@@ -48,11 +48,30 @@ export const App = (props) => (
 );
 
 function routes(sections) {
-  return parseContentProps(sections).map((item) => (
+  const content = parseContentProps(sections);
+  const routes = contentRoutes(content);
+  const redirect = defaultRedirect(content);
+  return routes.concat(redirect);
+}
+
+function contentRoutes(content) {
+  return content.map((item) => (
     <Route key={item.path} path={item.path}>
       <ResourceList title={item.title} />
     </Route>
   ));
+}
+
+const defaultRedirect = (content) => {
+  const path = indexPath(content);
+  return <Redirect exact key={path} from="/" to={path} />
+};
+
+export const indexPath = (content) => {
+  if (content.length === 0) {
+    throw("Nav cannot be empty");
+  }
+  return content[0].path;
 }
 
 export function parseContentProps(sections) {
