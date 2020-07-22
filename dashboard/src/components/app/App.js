@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "styles/theme";
 import { ThemeProvider } from "@material-ui/core/styles";
@@ -13,42 +14,7 @@ const store = configureStore({
   reducer: rootReducer,
 });
 
-const sections = [
-  {
-    name: "Resources",
-    items: [
-      { title: "Data Sources", icon: "file-import", path: "/sources" },
-      { title: "Materialized Views", icon: "copy", path: "/views" },
-      { title: "Features", icon: "file-code", path: "/features" },
-      { title: "Feature Sets", icon: "sitemap", path: "/feature-sets" },
-      { title: "Training Sets", icon: "archive", path: "/training-sets" },
-    ],
-  },
-  {
-    name: "Monitoring",
-    items: [
-      { title: "Metrics", icon: "chart-line", path: "/metrics" },
-      { title: "Deployment", icon: "server", path: "/deployment" },
-    ],
-  },
-  {
-    name: "Admin",
-    items: [
-      { title: "Users", icon: "users", path: "/users" },
-      { title: "Settings", icon: "cogs", path: "/settings" },
-      { title: "Billing", icon: "wallet", path: "/billing" },
-      {
-        title: "Documentation",
-        icon: "book",
-        path: "https://docs.streamsql.io",
-        external: true,
-      },
-      { title: "Help", icon: "question", path: "/help" },
-    ],
-  },
-];
-
-export const App = (props) => (
+export const App = ({ sections }) => (
   <Wrapper>
     <Nav sections={sections}>{routes(sections)}</Nav>
   </Wrapper>
@@ -97,4 +63,8 @@ export const Wrapper = ({ children }) => (
   </Provider>
 );
 
-export default App;
+const mapStateToProps = (state) => ({
+  sections: state.navSections,
+});
+
+export default connect(mapStateToProps)(App);
