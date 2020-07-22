@@ -5,6 +5,13 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import Nav from "components/nav";
 import ResourceList from "components/resource-list";
 import { Redirect, Route } from "react-router-dom";
+import { configureStore } from "@reduxjs/toolkit";
+import { Provider } from "react-redux";
+import rootReducer from "reducers";
+
+const store = configureStore({
+  reducer: rootReducer,
+});
 
 const sections = [
   {
@@ -82,10 +89,12 @@ export function parseContentProps(sections) {
 }
 
 export const Wrapper = ({ children }) => (
-  <ThemeProvider theme={theme}>
-    <CssBaseline />
-    {children}
-  </ThemeProvider>
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
+  </Provider>
 );
 
 export default App;
