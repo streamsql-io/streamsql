@@ -52,7 +52,6 @@ describe("App", () => {
   ];
 
   describe("parseContentProps", () => {
-
     it("parses correctly", () => {
       const expected = [
         { title: "Data Sources", path: "/sources" },

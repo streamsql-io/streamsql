@@ -64,15 +64,15 @@ function contentRoutes(content) {
 
 const defaultRedirect = (content) => {
   const path = indexPath(content);
-  return <Redirect exact key={path} from="/" to={path} />
+  return <Redirect exact key={path} from="/" to={path} />;
 };
 
 export const indexPath = (content) => {
   if (content.length === 0) {
-    throw("Nav cannot be empty");
+    throw "Nav cannot be empty";
   }
   return content[0].path;
-}
+};
 
 export function parseContentProps(sections) {
   return sections
