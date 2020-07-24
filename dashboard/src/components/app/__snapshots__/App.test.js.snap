@@ -442,7 +442,7 @@ exports[`App hasn't changed 1`] = `
       key="/sources"
       path="/sources"
     >
-      <ResourceList
+      <ResourceListView
         title="Data Sources"
       />
     </Route>
@@ -450,7 +450,7 @@ exports[`App hasn't changed 1`] = `
       key="/views"
       path="/views"
     >
-      <ResourceList
+      <ResourceListView
         title="Materialized Views"
       />
     </Route>
@@ -458,7 +458,7 @@ exports[`App hasn't changed 1`] = `
       key="/features"
       path="/features"
     >
-      <ResourceList
+      <ResourceListView
         title="Features"
       />
     </Route>
@@ -466,7 +466,7 @@ exports[`App hasn't changed 1`] = `
       key="/feature-sets"
       path="/feature-sets"
     >
-      <ResourceList
+      <ResourceListView
         title="Feature Sets"
       />
     </Route>
@@ -474,7 +474,7 @@ exports[`App hasn't changed 1`] = `
       key="/training-sets"
       path="/training-sets"
     >
-      <ResourceList
+      <ResourceListView
         title="Training Sets"
       />
     </Route>
@@ -482,7 +482,7 @@ exports[`App hasn't changed 1`] = `
       key="/metrics"
       path="/metrics"
     >
-      <ResourceList
+      <ResourceListView
         title="Metrics"
       />
     </Route>
@@ -490,7 +490,7 @@ exports[`App hasn't changed 1`] = `
       key="/deployment"
       path="/deployment"
     >
-      <ResourceList
+      <ResourceListView
         title="Deployment"
       />
     </Route>
@@ -498,7 +498,7 @@ exports[`App hasn't changed 1`] = `
       key="/users"
       path="/users"
     >
-      <ResourceList
+      <ResourceListView
         title="Users"
       />
     </Route>
@@ -506,7 +506,7 @@ exports[`App hasn't changed 1`] = `
       key="/settings"
       path="/settings"
     >
-      <ResourceList
+      <ResourceListView
         title="Settings"
       />
     </Route>
@@ -514,7 +514,7 @@ exports[`App hasn't changed 1`] = `
       key="/billing"
       path="/billing"
     >
-      <ResourceList
+      <ResourceListView
         title="Billing"
       />
     </Route>
@@ -522,7 +522,7 @@ exports[`App hasn't changed 1`] = `
       key="/help"
       path="/help"
     >
-      <ResourceList
+      <ResourceListView
         title="Help"
       />
     </Route>
