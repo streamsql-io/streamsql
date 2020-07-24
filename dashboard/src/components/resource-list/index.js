@@ -1,1 +1,1 @@
-export { default } from "./ResourceList.js";
+export { default } from "./ResourceListView.js";
