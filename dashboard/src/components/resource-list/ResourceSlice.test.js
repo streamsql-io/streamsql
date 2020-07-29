@@ -9,7 +9,7 @@ import {
   resourceTypes,
 } from "./ResourceSlice.js";
 
-const dataType = resourceTypes.get("DATA_SOURCE");
+const dataType = resourceTypes["DATA_SOURCE"];
 
 describe("fetchResourcesThunk", () => {
   const wrapInPromise = (arr) => Promise.resolve({ data: arr });
