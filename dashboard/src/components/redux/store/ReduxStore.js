@@ -5,4 +5,9 @@ const store = configureStore({
   reducer: rootReducer,
 });
 
+export const newTestStore = () =>
+  configureStore({
+    reducer: rootReducer,
+  });
+
 export default store;
