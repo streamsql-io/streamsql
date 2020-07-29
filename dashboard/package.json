@@ -9,6 +9,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "deferred": "^0.7.11",
     "enum": "^3.0.4",
     "jest-canvas-mock": "^2.2.0",
     "material-table": "^1.66.0",
