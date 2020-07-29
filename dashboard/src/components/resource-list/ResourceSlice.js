@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import Enum from "enum";
 
 export const fetchResources = createAsyncThunk(
   "resourceList/fetchByType",
@@ -17,20 +16,20 @@ export const fetchResources = createAsyncThunk(
   }
 );
 
-export const resourceTypes = new Enum([
-  "DATA_SOURCE",
-  "MATERIALIZED_VIEW",
-  "FEATURE",
-  "FEATURE_SET",
-  "TRAINING_SET",
-]);
+export const resourceTypes = Object.freeze({
+  DATA_SOURCE: "Data Source",
+  MATERIALIZED_VIEW: "Materialized View",
+  FEATURE: "Feature",
+  FEATURE_SET: "Feature Set",
+  TRAINING_SET: "Training Set",
+});
 
 const reduceFn = (map, type) => {
   map[type] = {};
   return map;
 };
 const reduceFnInitial = {};
-export const initialState = resourceTypes.enums.reduce(
+export const initialState = Object.values(resourceTypes).reduce(
   reduceFn,
   reduceFnInitial
 );
