@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const ResourceListView = ({ title }) => {
+export const ResourceListView = ({ title, resources, loading, failed }) => {
   const classes = useStyles();
   return (
     // MaterialTable doesn't support className, so we wrap it in a Box:
@@ -19,7 +19,8 @@ export const ResourceListView = ({ title }) => {
       <MaterialTable
         title={title}
         columns={[{ title: "Name", field: "name" }]}
-        data={[{ name: "test1" }, { name: "test2" }]}
+        data={resources}
+        isLoading={loading}
         options={{
           search: true,
         }}
