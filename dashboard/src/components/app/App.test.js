@@ -37,7 +37,7 @@ describe("App", () => {
           title: "Features",
           icon: "file-code",
           path: "/features",
-          view: views.EMPTY,
+          // view should be set to views.EMPTY by default.
         },
       ],
     },
