@@ -6,8 +6,8 @@ import {
   initialState,
   fetchResources,
   default as resourceReducer,
-  resourceTypes,
 } from "./ResourceSlice.js";
+import { resourceTypes } from "api/resources";
 
 const dataType = resourceTypes["DATA_SOURCE"];
 

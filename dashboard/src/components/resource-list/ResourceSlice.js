@@ -35,8 +35,8 @@ const resourceSlice = createSlice({
     [fetchResources.pending]: (state, action) => {
       const type = action.meta.arg.type;
       const requestId = action.meta.requestId;
-      state[type].resources = null;
       state[type].requestId = requestId;
+      state[type].resources = null;
       state[type].loading = true;
       state[type].failed = false;
     },
