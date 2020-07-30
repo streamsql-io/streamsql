@@ -4,7 +4,14 @@ import "jest-canvas-mock";
 import { configure, shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 
-import { App, indexPath, parseContentProps, ThemeWrapper } from "./App.js";
+import { resourceTypes } from "api/resources";
+import {
+  App,
+  indexPath,
+  parseContentProps,
+  ThemeWrapper,
+  views,
+} from "./App.js";
 
 configure({ adapter: new Adapter() });
 
@@ -13,33 +20,37 @@ describe("App", () => {
     {
       name: "Resources",
       items: [
-        { title: "Data Sources", icon: "file-import", path: "/sources" },
-        { title: "Materialized Views", icon: "copy", path: "/views" },
-        { title: "Features", icon: "file-code", path: "/features" },
-        { title: "Feature Sets", icon: "sitemap", path: "/feature-sets" },
-        { title: "Training Sets", icon: "archive", path: "/training-sets" },
-      ],
-    },
-    {
-      name: "Monitoring",
-      items: [
-        { title: "Metrics", icon: "chart-line", path: "/metrics" },
-        { title: "Deployment", icon: "server", path: "/deployment" },
+        {
+          title: "Data Sources",
+          icon: "file-import",
+          path: "/sources",
+          view: views.RESOURCE_LIST,
+          viewProps: { type: resourceTypes.DATA_SOURCE },
+        },
+        {
+          title: "Materialized Views",
+          icon: "copy",
+          path: "/views",
+          view: views.EMPTY,
+        },
+        {
+          title: "Features",
+          icon: "file-code",
+          path: "/features",
+          view: views.EMPTY,
+        },
       ],
     },
     {
       name: "Admin",
       items: [
-        { title: "Users", icon: "users", path: "/users" },
-        { title: "Settings", icon: "cogs", path: "/settings" },
-        { title: "Billing", icon: "wallet", path: "/billing" },
+        { title: "Users", icon: "users", path: "/users", view: views.EMPTY },
         {
           title: "Documentation",
           icon: "book",
           path: "https://docs.streamsql.io",
           external: true,
         },
-        { title: "Help", icon: "question", path: "/help" },
       ],
     },
   ];
@@ -63,17 +74,25 @@ describe("App", () => {
   describe("parseContentProps", () => {
     it("parses correctly", () => {
       const expected = [
-        { title: "Data Sources", path: "/sources" },
-        { title: "Materialized Views", path: "/views" },
-        { title: "Features", path: "/features" },
-        { title: "Feature Sets", path: "/feature-sets" },
-        { title: "Training Sets", path: "/training-sets" },
-        { title: "Metrics", path: "/metrics" },
-        { title: "Deployment", path: "/deployment" },
-        { title: "Users", path: "/users" },
-        { title: "Settings", path: "/settings" },
-        { title: "Billing", path: "/billing" },
-        { title: "Help", path: "/help" },
+        {
+          title: "Data Sources",
+          path: "/sources",
+          view: views.RESOURCE_LIST,
+          viewProps: { type: resourceTypes.DATA_SOURCE },
+        },
+        {
+          title: "Materialized Views",
+          path: "/views",
+          view: views.EMPTY,
+          viewProps: {},
+        },
+        {
+          title: "Features",
+          path: "/features",
+          view: views.EMPTY,
+          viewProps: {},
+        },
+        { title: "Users", path: "/users", view: views.EMPTY, viewProps: {} },
       ];
       const actual = parseContentProps(example_sections);
       expect(actual).toEqual(expected);

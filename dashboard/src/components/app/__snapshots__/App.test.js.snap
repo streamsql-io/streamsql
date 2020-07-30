@@ -365,26 +365,22 @@ exports[`App hasn't changed 1`] = `
               "icon": "file-import",
               "path": "/sources",
               "title": "Data Sources",
+              "view": "ResourceList",
+              "viewProps": Object {
+                "type": "Data Source",
+              },
             },
             Object {
               "icon": "copy",
               "path": "/views",
               "title": "Materialized Views",
+              "view": "Empty",
             },
             Object {
               "icon": "file-code",
               "path": "/features",
               "title": "Features",
-            },
-            Object {
-              "icon": "sitemap",
-              "path": "/feature-sets",
-              "title": "Feature Sets",
-            },
-            Object {
-              "icon": "archive",
-              "path": "/training-sets",
-              "title": "Training Sets",
+              "view": "Empty",
             },
           ],
           "name": "Resources",
@@ -392,45 +388,16 @@ exports[`App hasn't changed 1`] = `
         Object {
           "items": Array [
             Object {
-              "icon": "chart-line",
-              "path": "/metrics",
-              "title": "Metrics",
-            },
-            Object {
-              "icon": "server",
-              "path": "/deployment",
-              "title": "Deployment",
-            },
-          ],
-          "name": "Monitoring",
-        },
-        Object {
-          "items": Array [
-            Object {
               "icon": "users",
               "path": "/users",
               "title": "Users",
-            },
-            Object {
-              "icon": "cogs",
-              "path": "/settings",
-              "title": "Settings",
-            },
-            Object {
-              "icon": "wallet",
-              "path": "/billing",
-              "title": "Billing",
+              "view": "Empty",
             },
             Object {
               "external": true,
               "icon": "book",
               "path": "https://docs.streamsql.io",
               "title": "Documentation",
-            },
-            Object {
-              "icon": "question",
-              "path": "/help",
-              "title": "Help",
             },
           ],
           "name": "Admin",
@@ -442,94 +409,39 @@ exports[`App hasn't changed 1`] = `
       key="/sources"
       path="/sources"
     >
-      <ResourceListView
-        title="Data Sources"
+      <Connect(ResourceList)
+        api={ResourcesAPI {}}
+        type="Data Source"
       />
     </Route>
     <Route
       key="/views"
       path="/views"
     >
-      <ResourceListView
-        title="Materialized Views"
+      <Styled(MuiBox)
+        api={ResourcesAPI {}}
       />
     </Route>
     <Route
       key="/features"
       path="/features"
     >
-      <ResourceListView
-        title="Features"
-      />
-    </Route>
-    <Route
-      key="/feature-sets"
-      path="/feature-sets"
-    >
-      <ResourceListView
-        title="Feature Sets"
-      />
-    </Route>
-    <Route
-      key="/training-sets"
-      path="/training-sets"
-    >
-      <ResourceListView
-        title="Training Sets"
-      />
-    </Route>
-    <Route
-      key="/metrics"
-      path="/metrics"
-    >
-      <ResourceListView
-        title="Metrics"
-      />
-    </Route>
-    <Route
-      key="/deployment"
-      path="/deployment"
-    >
-      <ResourceListView
-        title="Deployment"
+      <Styled(MuiBox)
+        api={ResourcesAPI {}}
       />
     </Route>
     <Route
       key="/users"
       path="/users"
     >
-      <ResourceListView
-        title="Users"
-      />
-    </Route>
-    <Route
-      key="/settings"
-      path="/settings"
-    >
-      <ResourceListView
-        title="Settings"
-      />
-    </Route>
-    <Route
-      key="/billing"
-      path="/billing"
-    >
-      <ResourceListView
-        title="Billing"
-      />
-    </Route>
-    <Route
-      key="/help"
-      path="/help"
-    >
-      <ResourceListView
-        title="Help"
+      <Styled(MuiBox)
+        api={ResourcesAPI {}}
       />
     </Route>
     <Redirect
       exact={true}
       from="/"
-      key="/sources"
+      key="default_redirect_/sources"
       to="/sources"
     />
   </Nav>
