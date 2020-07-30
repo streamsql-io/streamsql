@@ -5,3 +5,11 @@ export const resourceTypes = Object.freeze({
   FEATURE_SET: "Feature Set",
   TRAINING_SET: "Training Set",
 });
+
+export default class ResourcesAPI {
+  fetchResources(type) {
+    return Promise.resolve({
+      data: [{ name: "abc" }, { name: type }],
+    });
+  }
+}
