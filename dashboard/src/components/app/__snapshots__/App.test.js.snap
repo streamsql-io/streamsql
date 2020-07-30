@@ -380,7 +380,6 @@ exports[`App hasn't changed 1`] = `
               "icon": "file-code",
               "path": "/features",
               "title": "Features",
-              "view": "Empty",
             },
           ],
           "name": "Resources",
