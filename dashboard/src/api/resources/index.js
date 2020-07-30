@@ -1,1 +1,1 @@
-export { resourceTypes } from "./Resources.js";
+export { default, resourceTypes } from "./Resources.js";
