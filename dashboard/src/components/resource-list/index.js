@@ -1,2 +1,2 @@
-export { default } from "./ResourceListView.js";
+export { default } from "./ResourceList.js";
 export { default as resourceReducer } from "./ResourceSlice.js";
