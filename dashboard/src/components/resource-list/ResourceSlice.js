@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { resourceTypes } from "api/resources";
 
 export const fetchResources = createAsyncThunk(
   "resourceList/fetchByType",
@@ -15,14 +16,6 @@ export const fetchResources = createAsyncThunk(
     },
   }
 );
-
-export const resourceTypes = Object.freeze({
-  DATA_SOURCE: "Data Source",
-  MATERIALIZED_VIEW: "Materialized View",
-  FEATURE: "Feature",
-  FEATURE_SET: "Feature Set",
-  TRAINING_SET: "Training Set",
-});
 
 const reduceFn = (map, type) => {
   map[type] = {};
