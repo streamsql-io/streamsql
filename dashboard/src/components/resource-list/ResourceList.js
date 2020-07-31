@@ -31,7 +31,9 @@ class ResourceList extends React.Component {
   }
 
   render() {
-    return <ResourceListView {...this.props} />;
+    // Only pass down props required for the view.
+    const { type, api, fetch, ...viewProps } = this.props;
+    return <ResourceListView {...viewProps} />;
   }
 }
 
