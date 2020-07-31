@@ -28,6 +28,7 @@ export const ResourceListView = ({ title, resources, loading, failed }) => {
         isLoading={initialLoad || loading || failed}
         options={{
           search: true,
+          draggable: false,
         }}
       />
     </Box>
