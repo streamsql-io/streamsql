@@ -57,7 +57,7 @@ const defaultRedirect = (content) => {
 
 export const indexPath = (content) => {
   if (content.length === 0) {
-    throw "Nav cannot be empty";
+    throw TypeError("Nav cannot be empty");
   }
   return content[0].path;
 };
