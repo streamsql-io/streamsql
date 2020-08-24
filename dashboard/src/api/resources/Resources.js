@@ -9,7 +9,10 @@ export const resourceTypes = Object.freeze({
 export default class ResourcesAPI {
   fetchResources(type) {
     return Promise.resolve({
-      data: [{ name: "abc" }, { name: type }],
+      data: [
+        { name: "abc", versions: ["abc", "1", "2"] },
+        { name: type, versions: ["1"] },
+      ],
     });
   }
 }

@@ -1,11 +1,11 @@
 import React from "react";
 // Necessary to get MaterialTable to work correctly.
 import "jest-canvas-mock";
-import { configure, shallow } from "enzyme";
+import { configure, shallow, mount } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import produce from "immer";
 
-import { ResourceListView } from "./ResourceListView.js";
+import { ResourceListView, VersionSelector } from "./ResourceListView.js";
 
 configure({ adapter: new Adapter() });
 
@@ -53,5 +53,27 @@ describe("ResourceListView", () => {
       <ResourceListView title="test" loading={false} failed={true} />
     );
     expect(list.children().props().isLoading).toEqual(true);
+  });
+
+  describe("VersionSelector", () => {
+    it("sets default active version", () => {
+      const sel = shallow(<VersionSelector name="abc" versions={["1", "2"]} />);
+      expect(sel.children().props().value).toBe("1");
+    });
+
+    it("onChange calls setVersion", () => {
+      const onChange = jest.fn();
+      const name = "abc";
+      const clickVal = "2";
+      const sel = shallow(
+        <VersionSelector
+          name={name}
+          versions={["1", "2"]}
+          setVersion={onChange}
+        />
+      );
+      sel.children().prop("onChange")({ target: { value: clickVal } });
+      expect(onChange).toHaveBeenCalledWith(name, clickVal);
+    });
   });
 });
