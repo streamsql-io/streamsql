@@ -3,25 +3,33 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchResources } from "./ResourceSlice.js";
 import ResourceListView from "./ResourceListView.js";
+import { setVersion } from "./VersionSlice.js";
 
 const makeMapStateToProps = (initState, initProps) => {
   const type = initProps.type;
   return (state) => {
     const item = state.resourceList[type];
+    const activeVersions = state.selectedVersion[type];
     return {
       title: type,
       resources: item.resources,
       loading: item.loading,
       failed: item.failed,
+      activeVersions: activeVersions,
     };
   };
 };
 
 const makeMapDispatchToProps = (ignore, initProps) => {
-  const type = initProps.type;
-  const api = initProps.api;
   return (dispatch) => ({
-    fetch: () => dispatch(fetchResources({ api: api, type: type })),
+    fetch: () => {
+      const { type, api } = initProps;
+      dispatch(fetchResources({ api, type }));
+    },
+    setVersion: (name, version) => {
+      const { type } = initProps;
+      dispatch(setVersion({ type, name, version }));
+    },
   });
 };
 
@@ -32,7 +40,7 @@ class ResourceList extends React.Component {
 
   render() {
     // Only pass down props required for the view.
-    const { type, api, fetch, ...viewProps } = this.props;
+    const { api, fetch, type, ...viewProps } = this.props;
     return <ResourceListView {...viewProps} />;
   }
 }

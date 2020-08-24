@@ -28,11 +28,22 @@ describe("ResourceList", () => {
   });
 
   it("correctly maps inital props from state.", () => {
-    expect(component.find("ResourceListView").props()).toEqual({
+    const viewProps = component.find("ResourceListView").props();
+    expect(viewProps).toMatchObject({
+      activeVersions: {},
       title: dataType,
       resources: null,
       loading: true,
       failed: false,
     });
+    const expKeys = [
+      "activeVersions",
+      "title",
+      "resources",
+      "loading",
+      "failed",
+      "setVersion",
+    ];
+    expect(Object.keys(viewProps).sort()).toEqual(expKeys.sort());
   });
 });

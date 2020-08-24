@@ -2,6 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 import MaterialTable from "material-table";
 
 const useStyles = makeStyles((theme) => ({
@@ -11,7 +14,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const ResourceListView = ({ title, resources, loading, failed }) => {
+export const ResourceListView = ({
+  title,
+  resources,
+  loading,
+  failed,
+  activeVersions = {},
+  setVersion,
+}) => {
   const classes = useStyles();
   const initialLoad = resources == null && !loading;
   const initRes = resources || [];
@@ -23,7 +33,21 @@ export const ResourceListView = ({ title, resources, loading, failed }) => {
     <Box className={classes.table}>
       <MaterialTable
         title={title}
-        columns={[{ title: "Name", field: "name" }]}
+        columns={[
+          { title: "Name", field: "name" },
+          {
+            title: "Versions",
+            field: "versions",
+            render: (row) => (
+              <VersionSelector
+                name={row.name}
+                versions={row.versions}
+                activeVersions={activeVersions}
+                setVersion={setVersion}
+              />
+            ),
+          },
+        ]}
         data={mutableRes}
         isLoading={initialLoad || loading || failed}
         options={{
@@ -35,11 +59,33 @@ export const ResourceListView = ({ title, resources, loading, failed }) => {
   );
 };
 
+export const VersionSelector = ({
+  name,
+  versions = [""],
+  activeVersions = {},
+  setVersion,
+}) => (
+  <FormControl>
+    <Select
+      value={activeVersions[name] || versions[0]}
+      onChange={(event) => setVersion(name, event.target.value)}
+    >
+      {versions.map((version) => (
+        <MenuItem key={version} value={version}>
+          {version}
+        </MenuItem>
+      ))}
+    </Select>
+  </FormControl>
+);
+
 ResourceListView.propTypes = {
   title: PropTypes.string.isRequired,
   resources: PropTypes.array,
   loading: PropTypes.bool,
   failed: PropTypes.bool,
+  activeVersions: PropTypes.object,
+  setVersion: PropTypes.func,
 };
 
 export default ResourceListView;
