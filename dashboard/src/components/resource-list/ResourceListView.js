@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
+import Chip from "@material-ui/core/Chip";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -12,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
   table: {
     margin: theme.spacing(4),
   },
+  tag: {
+    margin: theme.spacing(0.1),
+  },
 }));
 
 export const ResourceListView = ({
@@ -19,6 +24,7 @@ export const ResourceListView = ({
   resources,
   loading,
   failed,
+  activeTags,
   activeVersions = {},
   setVersion,
 }) => {
@@ -35,8 +41,19 @@ export const ResourceListView = ({
         title={title}
         columns={[
           { title: "Name", field: "name" },
+          { title: "Description", field: "description" },
           {
-            title: "Versions",
+            title: "Tags",
+            field: "tags",
+            render: (row) => (
+              <TagList
+                tags={row.tags}
+                tagClass={classes.tag}
+              />
+            ),
+          },
+          {
+            title: "Version",
             field: "versions",
             render: (row) => (
               <VersionSelector
@@ -58,6 +75,17 @@ export const ResourceListView = ({
     </Box>
   );
 };
+
+export const TagList = ({
+  tags=[],
+  tagClass,
+}) => (
+  <Grid container direction="horizontal">
+      {tags.map((tag) => (
+        <Chip className={tagClass} variant="outlined" label={tag}/>
+      ))}
+  </Grid>
+);
 
 export const VersionSelector = ({
   name,
