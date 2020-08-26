@@ -7,7 +7,7 @@ import ResourceListView from "./ResourceListView.js";
 import { setVersion } from "./VersionSlice.js";
 import { toggleTag } from "./TagSlice.js";
 
-const makeSelectFilteredResources = (type) => {
+export const makeSelectFilteredResources = (type) => {
   const selectResources = (state) => state.resourceList[type].resources;
   const selectTags = (state) => state.selectedTags[type];
   return createSelector(selectResources, selectTags, (resources, tags) => {
