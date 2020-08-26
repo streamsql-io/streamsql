@@ -12,9 +12,13 @@ import Select from "@material-ui/core/Select";
 import MaterialTable from "material-table";
 import { PrismAsyncLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import python from "react-syntax-highlighter/dist/cjs/languages/prism/python";
+import sql from "react-syntax-highlighter/dist/cjs/languages/prism/sql";
+import json from "react-syntax-highlighter/dist/cjs/languages/prism/json";
 import { okaidia } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 SyntaxHighlighter.registerLanguage("python", python);
+SyntaxHighlighter.registerLanguage("sql", sql);
+SyntaxHighlighter.registerLanguage("json", json);
 
 const useStyles = makeStyles((theme) => ({
   root: {},
