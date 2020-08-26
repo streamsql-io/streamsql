@@ -8,7 +8,7 @@ describe("TagSlice ", () => {
     const payload = { type, tag };
     const action = toggleTag(payload);
     const newState = reducer(undefined, action);
-    expect(newState).toMatchObject({ [type]: {[tag]: true} });
+    expect(newState).toMatchObject({ [type]: { [tag]: true } });
   });
 
   it("toggle off tag", () => {

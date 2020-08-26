@@ -19,7 +19,7 @@ const tagSlice = createSlice({
     toggle: (state, action) => {
       const { type, tag } = action.payload;
       const set = state[type];
-      if(set[tag]) {
+      if (set[tag]) {
         delete set[tag];
       } else {
         set[tag] = true;
