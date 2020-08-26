@@ -15,13 +15,15 @@ const makeSelectFilteredResources = (type) => {
     if (!resources) {
       return null;
     }
+    const numSelected = Object.keys(tags).length;
     // If no tags are active, then don't filter anything.
-    if (Object.keys(tags).length === 0) {
+    if (numSelected === 0) {
       return resources;
     }
     return resources.filter((resource) => {
       const resTags = resource.tags || [];
-      return resTags.some((itemTag) => tags[itemTag]);
+      const numFound = resTags.filter((itemTag) => tags[itemTag]).length;
+      return numFound === numSelected;
     });
   });
 };
