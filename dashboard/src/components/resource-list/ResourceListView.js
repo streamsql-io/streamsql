@@ -79,7 +79,12 @@ export const ResourceListView = ({
   );
 };
 
-export const TagList = ({ activeTags, tags = [], tagClass, toggleTag }) => (
+export const TagList = ({
+  activeTags = {},
+  tags = [],
+  tagClass,
+  toggleTag,
+}) => (
   <Grid container direction="row">
     {tags.map((tag) => (
       <Chip
