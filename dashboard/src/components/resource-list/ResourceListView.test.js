@@ -3,9 +3,14 @@ import React from "react";
 import "jest-canvas-mock";
 import { configure, shallow, mount } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
+import Chip from "@material-ui/core/Chip";
 import produce from "immer";
 
-import { ResourceListView, VersionSelector } from "./ResourceListView.js";
+import {
+  ResourceListView,
+  TagList,
+  VersionSelector,
+} from "./ResourceListView.js";
 
 configure({ adapter: new Adapter() });
 
@@ -74,6 +79,38 @@ describe("ResourceListView", () => {
       );
       sel.children().prop("onChange")({ target: { value: clickVal } });
       expect(onChange).toHaveBeenCalledWith(name, clickVal);
+    });
+  });
+
+  describe("TagList", () => {
+    const exampleTags = ["a", "b", "c"];
+
+    it("renders correctly with no tags", () => {
+      const list = shallow(<TagList />);
+      expect(list.children().length).toBe(0);
+    });
+
+    it("renders correctly with no active tags", () => {
+      const list = shallow(
+        <TagList tagClass="class-here" tags={exampleTags} />
+      );
+      expect(list).toMatchSnapshot();
+    });
+
+    it("highlights active tags", () => {
+      const list = mount(
+        <TagList activeTags={{ [exampleTags[1]]: true }} tags={exampleTags} />
+      );
+      const chips = list.find(Chip);
+      expect(chips.at(0).prop("color")).toBe("default");
+      expect(chips.at(1).prop("color")).toBe("secondary");
+    });
+
+    it("toggles tag on click", () => {
+      const toggle = jest.fn();
+      const list = mount(<TagList tags={exampleTags} toggleTag={toggle} />);
+      list.find(Chip).at(0).simulate("click");
+      expect(toggle).toHaveBeenCalledWith(exampleTags[0]);
     });
   });
 });
