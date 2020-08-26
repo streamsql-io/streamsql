@@ -2,8 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Chip from "@material-ui/core/Chip";
+import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -18,6 +20,15 @@ const useStyles = makeStyles((theme) => ({
   root: {},
   table: {
     margin: theme.spacing(4),
+  },
+  detailPanel: {
+    padding: theme.spacing(4),
+  },
+  config: {
+    width: "100%",
+  },
+  detailButton: {
+    margin: theme.spacing(1),
   },
   tag: {
     margin: theme.spacing(0.1),
@@ -77,9 +88,39 @@ export const ResourceListView = ({
         isLoading={initialLoad || loading || failed}
         detailPanel={(rowData) => {
           return (
-            <SyntaxHighlighter language="python" style={okaidia}>
-              TEST
-            </SyntaxHighlighter>
+            <Grid
+              container
+              className={classes.detailPanel}
+              direction="column"
+              alignItems="center"
+            >
+              <Typography component="h3">Configuration</Typography>
+              <Grid container item lg={6}>
+                <SyntaxHighlighter
+                  className={classes.config}
+                  language="python"
+                  style={okaidia}
+                >
+                  TEST
+                </SyntaxHighlighter>
+              </Grid>
+              <Grid container item justify="center" direction="row" lg={6}>
+                <Button
+                  className={classes.detailButton}
+                  variant="outlined"
+                  color="secondary"
+                >
+                  View Usage
+                </Button>
+                <Button
+                  className={classes.detailButton}
+                  variant="outlined"
+                  color="secondary"
+                >
+                  Monitor Values
+                </Button>
+              </Grid>
+            </Grid>
           );
         }}
         onRowClick={(event, rowData, togglePanel) => togglePanel()}
