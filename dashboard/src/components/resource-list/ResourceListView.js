@@ -8,6 +8,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MaterialTable from "material-table";
+import { PrismAsyncLight as SyntaxHighlighter } from "react-syntax-highlighter";
+import python from "react-syntax-highlighter/dist/cjs/languages/prism/python";
+import { okaidia } from "react-syntax-highlighter/dist/cjs/styles/prism";
+
+SyntaxHighlighter.registerLanguage("python", python);
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -71,7 +76,11 @@ export const ResourceListView = ({
         data={mutableRes}
         isLoading={initialLoad || loading || failed}
         detailPanel={(rowData) => {
-          return <div>TEST</div>;
+          return (
+            <SyntaxHighlighter language="python" style={okaidia}>
+              TEST
+            </SyntaxHighlighter>
+          );
         }}
         onRowClick={(event, rowData, togglePanel) => togglePanel()}
         options={{
