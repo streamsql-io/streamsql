@@ -37,12 +37,14 @@ describe("ResourceList", () => {
       failed: false,
     });
     const expKeys = [
+      "activeTags",
       "activeVersions",
       "title",
       "resources",
       "loading",
       "failed",
       "setVersion",
+      "toggleTag",
     ];
     expect(Object.keys(viewProps).sort()).toEqual(expKeys.sort());
   });

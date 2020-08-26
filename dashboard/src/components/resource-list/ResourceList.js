@@ -1,21 +1,45 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { createSelector } from "@reduxjs/toolkit";
 import { fetchResources } from "./ResourceSlice.js";
 import ResourceListView from "./ResourceListView.js";
 import { setVersion } from "./VersionSlice.js";
+import { toggleTag } from "./TagSlice.js";
+
+const makeSelectFilteredResources = (type) => {
+  const selectResources = (state) => state.resourceList[type].resources;
+  const selectTags = (state) => state.selectedTags[type];
+  return createSelector(selectResources, selectTags, (resources, tags) => {
+    // Resources is null or undefined when loading.
+    if (!resources) {
+      return null;
+    }
+    // If no tags are active, then don't filter anything.
+    if (Object.keys(tags).length === 0) {
+      return resources;
+    }
+    return resources.filter((resource) => {
+      const resTags = resource.tags || [];
+      return resTags.some((itemTag) => tags[itemTag]);
+    });
+  });
+};
 
 const makeMapStateToProps = (initState, initProps) => {
   const type = initProps.type;
   return (state) => {
+    const selector = makeSelectFilteredResources(type);
     const item = state.resourceList[type];
     const activeVersions = state.selectedVersion[type];
+    const activeTags = state.selectedTags[type];
     return {
       title: type,
-      resources: item.resources,
+      resources: selector(state),
       loading: item.loading,
       failed: item.failed,
       activeVersions: activeVersions,
+      activeTags: activeTags,
     };
   };
 };
@@ -29,6 +53,10 @@ const makeMapDispatchToProps = (ignore, initProps) => {
     setVersion: (name, version) => {
       const { type } = initProps;
       dispatch(setVersion({ type, name, version }));
+    },
+    toggleTag: (tag) => {
+      const { type } = initProps;
+      dispatch(toggleTag({ type, tag }));
     },
   });
 };
