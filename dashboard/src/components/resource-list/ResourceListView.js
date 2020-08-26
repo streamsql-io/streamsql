@@ -27,6 +27,7 @@ export const ResourceListView = ({
   activeTags,
   activeVersions = {},
   setVersion,
+  toggleTag,
 }) => {
   const classes = useStyles();
   const initialLoad = resources == null && !loading;
@@ -47,8 +48,10 @@ export const ResourceListView = ({
             field: "tags",
             render: (row) => (
               <TagList
+                activeTags={activeTags}
                 tags={row.tags}
                 tagClass={classes.tag}
+                toggleTag={toggleTag}
               />
             ),
           },
@@ -76,14 +79,18 @@ export const ResourceListView = ({
   );
 };
 
-export const TagList = ({
-  tags=[],
-  tagClass,
-}) => (
-  <Grid container direction="horizontal">
-      {tags.map((tag) => (
-        <Chip className={tagClass} variant="outlined" label={tag}/>
-      ))}
+export const TagList = ({ activeTags, tags = [], tagClass, toggleTag }) => (
+  <Grid container direction="row">
+    {tags.map((tag) => (
+      <Chip
+        key={tag}
+        className={tagClass}
+        color={activeTags[tag] ? "secondary" : "default"}
+        onClick={() => toggleTag(tag)}
+        variant="outlined"
+        label={tag}
+      />
+    ))}
   </Grid>
 );
 
