@@ -70,6 +70,10 @@ export const ResourceListView = ({
         ]}
         data={mutableRes}
         isLoading={initialLoad || loading || failed}
+        detailPanel={(rowData) => {
+          return <div>TEST</div>;
+        }}
+        onRowClick={(event, rowData, togglePanel) => togglePanel()}
         options={{
           search: true,
           draggable: false,
