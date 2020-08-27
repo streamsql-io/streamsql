@@ -102,10 +102,10 @@ export const ResourceListView = ({
               <Grid container item lg={6}>
                 <SyntaxHighlighter
                   className={classes.config}
-                  language="python"
+                  language={rowData.language}
                   style={okaidia}
                 >
-                  TEST
+                  {rowData.config}
                 </SyntaxHighlighter>
               </Grid>
               <Grid container item justify="center" direction="row" lg={6}>
